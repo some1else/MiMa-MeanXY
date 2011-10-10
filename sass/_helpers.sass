@@ -1,0 +1,101 @@
+=serif
+  font-family: Georgia, serif
+=sans
+  font-family: Tahoma, Verdana, sans-serif
+
+=text_shadow($x, $y, $s, $c) 
+  text-shadow: $x $y $s $c
+  -webkit-text-shadow: $x $y $s $c
+  -moz-text-shadow: $x $y $s $c
+  -o-text-shadow: $x $y $s $c
+  
+=box_shadow($x, $y, $s, $c)
+  box-shadow: $x $y $s $c
+  -webkit-box-shadow: $x $y $s $c
+  -moz-box-shadow: $x $y $s $c
+  -o-box-shadow: $x $y $s $c
+=inset_shadow($x, $y, $s, $c)
+  box-shadow: inset $x $y $s $c
+  -webkit-box-shadow: inset $x $y $s $c
+  -moz-box-shadow: inset $x $y $s $c
+  -o-box-shadow: inset $x $y $s $c
+
+=border_bottom_left_radius($x)
+  border-bottom-left-radius: $x
+  -webkit-border-bottom-left-radius: $x
+  -moz-border-bottom-left-radius: $x
+  -o-border-bottom-left-radius: $x
+
+=border_top_left_radius($x)
+  border-top-left-radius: $x
+  -webkit-border-top-left-radius: $x
+  -moz-border-top-left-radius: $x
+  -o-border-top-left-radius: $x
+  
+=border_bottom_right_radius($x)
+  border-bottom-right-radius: $x
+  -webkit-border-bottom-right-radius: $x
+  -moz-border-bottom-right-radius: $x
+  -o-border-bottom-right-radius: $x
+
+=border_top_right_radius($x)
+  border-top-right-radius: $x
+  -webkit-border-top-right-radius: $x
+  -moz-border-top-right-radius: $x
+  -o-border-top-right-radius: $x
+
+
+=border_radius($x)
+  border-radius: $x
+  -webkit-border-radius: $x
+  -moz-border-radius: $x
+  -o-border-radius: $x
+
+=gradient($from, $mid, $to)
+  background: $mid /* Old browsers */
+  background: -moz-linear-gradient(top, $from 0%, $mid 50%, $to 100%) /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$from), color-stop(50%,$mid), color-stop(100%,$to)) /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, $from 0%,$mid 50%,$to 100%) /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, $from 0%,$mid 50%,$to 100%) /* Opera11.10+ */
+  background: -ms-linear-gradient(top, $from 0%,$mid 50%,$to 100%) /* IE10+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#{$from}", endColorstr="#{$to}",GradientType=0 ) /* IE6-9 */
+  background: linear-gradient(top, $from 0%,$mid 50%,$to 100%) /* W3C */
+  
+=transform($param)
+  transform: $param
+  -o-transform: $param
+  -moz-transform: $param
+  -webkit-transform: $param
+  
+=text_button
+  display: inline-block
+  +sans
+  font-size: 12px
+  text-align: center
+  background: $dark_lime
+  +gradient($dark_lime + #111, $dark_lime, $dark_lime - #111)
+  color: white
+  border: 1px solid green
+  border:
+    top-color: $lime + #111
+    left-color: $lime
+    bottom-color: $dark_lime - #333
+    right-color: $dark_lime - #222
+  +border_radius(4px)
+  +box_shadow(0, 2px, 2px, rgba(0, 0, 0, .5))
+  +text_shadow(0, -1px, 0, rgba(0,0,0,.3))
+
+  span
+    padding:
+      left: 4px
+      right: 4px
+    line-height: 30px
+  &:hover
+    +gradient($dark_green + #111, $dark_green, $dark_green - #111)
+    color: $lime
+    color: white
+    
+=vertical_crush
+  margin:
+    top: 0
+    bottom: 0

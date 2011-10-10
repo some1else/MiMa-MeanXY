@@ -1,0 +1,88 @@
+$font_unit: px !default
+$base_font_size: 14 !default
+$line_height_size: 20 !default
+$line_height_unit: $font_unit !default
+
+$body_font_family: unquote("'Georgia', serif") !default
+$heading_font_family: unquote("'Helvetica Neue', Arial, Helvetica, sans-serif") !default
+$heading_font_weight: bold !default
+
+// Used to check if we're being used within Grid System
+$unit: undefined !default
+
+// A weird shorthand for multiplying line height to achieve vertical rhythm
+// like so +leading(1.5) or +leading(3) or simply +leading
+=leading($n: 1)
+  line-height: $line_height_size * $n + $line_height_unit
+
+=bold
+  font-weight: bold
+
+=italic
+  font-style: italic
+
+body
+  font:
+    family: $body_font_family
+    size: $base_font_size + $font_unit
+  +leading
+
+a
+  text-decoration: none
+  &:focus
+    outline: 1px dotted invert
+
+hr
+  border: 0 #cccccc solid
+  border-top-width: 1px
+  clear: both
+  height: 0
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .hn
+  font:
+    family: $heading_font_family
+    weight: $heading_font_weight
+  $headings_stick_to_the_content_below_them: undefined !default
+  @if $headings_stick_to_the_content_below_them == true
+    margin-bottom: 0 !important
+
+$heading_size_multiplier: 1 + 1 / 6 !default
+$n: $base_font_size
+
+@for $i from 1 through 6
+  $x: (-7 + $i) * -1
+  h#{$x}, .h#{$x}
+    font-size: $n + $font_unit
+    +leading(($i + 3) / 4)
+  $n: $n * $heading_size_multiplier
+
+ol
+  list-style: decimal
+
+ul
+  list-style: square
+
+// Using line-height for vertical rhythm, unless we're part of GridSystem
+// FIXME Test how this logic performs with % and em, inside and outside GS
+p, dl, hr, h1, h2, h3, h4, h5, h6, ol, ul, pre, table, address, fieldset
+  @if $unit == "undefined"
+    @if $line_height_unit == "px"
+      margin:
+        top: $line_height_size + $line_height_unit
+        bottom: $line_height_size + $line_height_unit
+    @if $line_height_unit == "em"
+      margin:
+        top: $line_height_size + $line_height_unit
+        bottom: $line_height_size + $line_height_unit
+    @if $line_height_unit == "%"
+      margin:
+        top: $font_size * $line_height_size + $line_height_unit
+        bottom: $font_size * $line_height_size + $line_height_unit
+    @if $line_height_unit == ""
+      margin:
+        top: $font_size * $line_height_size + $line_height_unit
+        bottom: $font_size * $line_height_size + $line_height_unit
+  @else
+    margin:
+      top: $gutter + $unit
+      bottom: $gutter + $unit

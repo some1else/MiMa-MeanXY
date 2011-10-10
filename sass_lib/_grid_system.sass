@@ -1,0 +1,143 @@
+// Define these before you import the grid system
+
+// Width of the container, number in pixels
+$width: 960 !default
+
+// Number of columns in the layout
+$columns: 12 !default
+
+// Spacing between columns, number in pixels
+$gutter: 20 !default
+
+// Layout unit
+$unit: px !default
+
+// From here on in, sizes are calculated arithmetically
+
+$column: $width / $columns - $gutter
+
+// Width mixin
+
+=wrap($n)
+  width: $column * $n + $gutter * $n + $unit
+
+=width($n)
+  width: $column * $n + $gutter * ($n - 1) + $unit
+
+// Default grid column positioning
+
+=positioning
+  display: inline
+  float: left
+
+=gutter
+  margin:
+    left: $gutter / 2 + $unit
+    right: $gutter / 2 + $unit
+
+// Column mixin
+
+=column($n)
+  +positioning
+  +gutter
+  // Floated elements don't collapse margins, fake it
+  margin:
+    top: $gutter / 2 + $unit
+    bottom: $gutter / 2 + $unit
+  +width($n)
+//(1, 5, 9)
+=subcolumn($sub_columns, $new_number_of_columns, $parent_columns)
+  $full_width: ($parent_columns * $column + $parent_columns * $gutter)
+  $local_column_width: ($full_width - ($new_number_of_columns) * $gutter) / $new_number_of_columns
+  +positioning
+  +gutter
+  margin:
+    top: $gutter / 2 + $unit
+    bottom: $gutter / 2 + $unit
+    
+  width: ($local_column_width * $sub_columns) + (($sub_columns - 1) * $gutter) + $unit
+
+// Wrapper mixin
+
+=layout($n)
+  +positioning
+  +wrap($n)
+  +clearfix
+  // Colapse vertically
+  margin:
+    top: 0
+    bottom: 0
+
+// Prepend and append padding
+
+=prepend($n)
+  padding-left: $n * $column + $gutter * $n + $unit
+
+=append($n)
+  padding-right: $n * $column + $gutter * $n + $unit
+
+// Prefix and suffix margins
+
+=prefix($n)
+  margin-left: $n * $column + $gutter * ($n - 1) + $gutter * 1.5 + $unit
+
+=suffix($n)
+  margin-right: $n * $column + $gutter * ($n - 1) + $gutter * 1.5 + $unit
+
+// Straightforward centered container
+
+=container
+  //position: relative
+  margin:
+    left: auto
+    right: auto
+  width: $width + $unit
+
+// First and last child
+// .. if nested in another element which is several columns wide
+// .. if possible, use +wrapper(x) for parent element, doesnt margin
+
+=first
+  margin-left: 0
+
+=last
+  margin-right: 0
+
+// Clearing floats
+
+=clear
+  clear: both
+  display: block
+  overflow: hidden
+  visibility: hidden
+  width: 0
+  height: 0
+
+=clearfix
+  display: inline-block
+  display: block
+  &:after
+    clear: both
+    content: " "
+    display: block
+    font-size: 0
+    line-height: 0
+    visibility: hidden
+    width: 0
+    height: 0
+  * html &
+    height: 1%
+
+// You can undo inline floating and margins for special cases,
+// like when you want to position an object absolutely or statically
+
+=undo_positioning
+  display: inherit
+  float: inherit
+
+=undo_gutter
+  margin: inherit
+
+=undo
+  +undo_positioning
+  +undo_gutter

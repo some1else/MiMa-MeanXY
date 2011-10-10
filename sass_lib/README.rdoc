@@ -1,0 +1,51 @@
+= Grid System
+
+Grid System is a dynamic {SASS framework}[http://sass-lang.com/]. It's meant to give you the usual benefits of using a CSS framework for layout (i.e.: {Blueprint}[http://www.blueprintcss.org/] or {960 Grid System}[http://960.gs]), with the following few, but important exceptions:
+
+* The presentational class names should not be in the HTML, instead they are SASS mixins in semantically titled selectors instead
+* Instead of having countless prefabricated stylesheets, Grid System takes a few defining values, and figures out the rest with calculations
+
+== Usage
+  
+For instance, you set some constants and import the grid system in your application.sass:
+
+  !columns = 12
+  !width = 960
+  !gutter = 20
+
+  @import grid_system.sass
+
+Then you simply mix in the definitions where they apply like so:
+
+  body
+    +container
+  #content
+    +column(6)
+    +prefix(2)
+  #sidebar
+    +column(4)
+    
+You can also do more complex layouts with wrappers
+  
+  body
+    +container
+  #nav
+    +column(4)  
+  #content
+    +wrapper(8)  
+    dl
+      dt
+        +column(2)
+      dd
+        +column(6)
+
+== Credits
+
+Author:: {Srđan Prodanović}[http://github.com/Some1Else]
+Sources:: {960 Grid System}[http://960.gs], {Eric Meyer CSS Reset}[http://meyerweb.com/eric/tools/css/reset/]
+
+== Notice
+
+The SASS Grid System is still just a working prototype. Please fork and contribute. If you have an opinion come hang out in {#haml on FreeNode}[irc://irc.freenode.net/haml] or {send me a GitHub private message}[http://github.com/inbox/new/Some1Else].
+
+

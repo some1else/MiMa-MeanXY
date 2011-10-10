@@ -32,14 +32,14 @@ h1
     $size_2_c: 2 * $column + 1 * $gutter + $unit
     height: $size_2_c
     line-height: $size_2_c
-    +gradient(#000, #666, #333)
+    +gradient(#222, #666, #333)
     color: white
     text-align: center
     +border-radius(5)
 
-#icons
+#tiles
   margin-top: $gutter/2 + $unit
-  .icon
+  .tile
     +layout(4)
     a
       +column(4)
@@ -65,25 +65,25 @@ h1
   // icon types    
   .time
     a:hover
-      +gradient(darken($time_color, 5%), desaturate($time_color, 5%), $time_color)
+      +gradient(darken($time_color, 5%), lighten(desaturate($time_color, 5%), 5%), $time_color)
     a
-      +gradient(darken($time_color, 10%), desaturate($time_color, 10%), $time_color) 
+      +gradient(darken($time_color, 10%), lighten(desaturate($time_color, 10%), 10%), $time_color) 
     
   .person
     a:hover
-      +gradient(darken($person_color, 5%), desaturate($person_color, 5%), $person_color)
+      +gradient(darken($person_color, 5%), lighten(desaturate($person_color, 5%), 5%), $person_color)
     a
-      +gradient(darken($person_color, 10%), desaturate($person_color, 10%), $person_color)  
+      +gradient(darken($person_color, 10%), lighten(desaturate($person_color, 10%), 10%), $person_color)  
 
   .place
     a:hover
-      +gradient(darken($place_color, 5%), desaturate($place_color, 5%), $place_color)
+      +gradient(darken($place_color, 5%), lighten(desaturate($place_color, 5%), 5%), $place_color)
     a
-      +gradient(darken($place_color, 10%), desaturate($place_color, 10%), $place_color)
+      +gradient(darken($place_color, 10%), lighten(desaturate($place_color, 10%), 10%), $place_color)
 
   .tag
     a:hover
-      +gradient(darken($tag_color, 5%), desaturate($tag_color, 5%), $tag_color)
+      +gradient(darken($tag_color, 5%), lighten(desaturate($tag_color, 5%), 5%), $tag_color)
     a
-      +gradient(darken($tag_color, 10%), desaturate($tag_color, 10%), $tag_color)
+      +gradient(darken($tag_color, 10%), lighten(desaturate($tag_color, 10%), 10%), $tag_color)
 

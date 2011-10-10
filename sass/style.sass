@@ -1,24 +1,28 @@
 $width: 480
 $columns: 16
-$gutter: 10
+$gutter: 20
 
-$blood_red: #ed1c24
-$gray: #999
+$tile_color: #CCC
+
+$person_color: hsl(70, 90%, 50%)  
+$place_color: hsl(30, 100%, 50%)
+$time_color: hsl(330, 100%, 52%)
+$tag_color: hsl(198, 90%, 50%)
 
 @import ../sass_lib/reset
 @import ../sass_lib/grid_system
 
 @import helpers
-@import modules
 
 body
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
   margin: 0 !important
-  background: url(images/top_stripes.gif) repeat-x
-  +container
-
+  
 h1
   display: none
+
+#wrap
+  +container
 
 #tabs
   +layout(12)
@@ -26,18 +30,60 @@ h1
   .tab
     +column(4)
     $size_2_c: 2 * $column + 1 * $gutter + $unit
-    background: blue
     height: $size_2_c
     line-height: $size_2_c
+    +gradient(#000, #666, #333)
+    color: white
     text-align: center
+    +border-radius(5)
 
 #icons
-  +layout(16)
-  
+  margin-top: $gutter/2 + $unit
   .icon
-    +column(4)
-    $size_4_c: 4 * $column + 3 * $gutter + $unit
-    height: $size_4_c 
-    line-height: $size_4_c
-    text-align: center
-    background: #cf0
+    +layout(4)
+    a
+      +column(4)
+      +border-radius(5)
+      +box-shadow(0px, 1px, 1px, rgba(0,0,0,.66))
+
+      color: white
+      background: $tile_color
+
+      $size_4_c: 4 * $column + 3 * $gutter + $unit
+      width: $size_4_c
+      height: $size_4_c
+      line-height: $size_4_c
+      
+      font-weight: bold
+      text-align: center
+      text-decoration: none
+
+      
+    span
+      +text-shadows(0px -1px 1px rgba(0,0,0,.4), 0px 1px 0px rgba(128,128,128,.66))
+      font-weight: bold
+  // icon types    
+  .time
+    a:hover
+      +gradient(darken($time_color, 5%), desaturate($time_color, 5%), $time_color)
+    a
+      +gradient(darken($time_color, 10%), desaturate($time_color, 10%), $time_color) 
+    
+  .person
+    a:hover
+      +gradient(darken($person_color, 5%), desaturate($person_color, 5%), $person_color)
+    a
+      +gradient(darken($person_color, 10%), desaturate($person_color, 10%), $person_color)  
+
+  .place
+    a:hover
+      +gradient(darken($place_color, 5%), desaturate($place_color, 5%), $place_color)
+    a
+      +gradient(darken($place_color, 10%), desaturate($place_color, 10%), $place_color)
+
+  .tag
+    a:hover
+      +gradient(darken($tag_color, 5%), desaturate($tag_color, 5%), $tag_color)
+    a
+      +gradient(darken($tag_color, 10%), desaturate($tag_color, 10%), $tag_color)
+

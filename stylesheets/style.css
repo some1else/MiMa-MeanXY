@@ -49,7 +49,7 @@ body {
 h1 {
   display: none; }
 
-#wrap {
+#app {
   margin-left: auto;
   margin-right: auto;
   width: 480px; }

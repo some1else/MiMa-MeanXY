@@ -9,70 +9,17 @@
 %body
   %h1 MeanXY
   #app
+    #query
+      &nbsp;
     %ul#tiles
-    /  
-      %li.tile.person
-        %a{:href => "#"}
-          %span 1
-      %li.tile.tag
-        %a{:href => "#"}
-          %span 2
-      %li.tile.tag
-        %a{:href => "#"}
-          %span 3
-      %li.tile.time
-        %a{:href => "#"}
-          %span 4
-      %li.tile.time
-        %a{:href => "#"}  
-          %span 5
-      %li.tile.person
-        %a{:href => "#"}
-          %span 6
-      %li.tile.person
-        %a{:href => "#"}
-          %span 7
-      %li.tile.tag
-        %a{:href => "#"}
-          %span 8
-      %li.tile.tag
-        %a{:href => "#"}
-          %span 9
-      %li.tile.time
-        %a{:href => "#"}
-          %span 10
-      %li.tile.place
-        %a{:href => "#"}
-          %span 11
-      %li.tile.time
-        %a{:href => "#"}
-          %span 12
-      %li.tile.time
-        %a{:href => "#"}
-          %span 13
-      %li.tile
-        %a{:href => "#"}
-          %span 14
-      %li.tile
-        %a{:href => "#"}
-          %span 15
-      %li.tile
-        %a{:href => "#"}
-          %span 16
-      %li.tile
-        %a{:href => "#"}
-          %span 17
-      %li.tile
-        %a{:href => "#"}
-          %span 18
-      %li.tile
-        %a{:href => "#"}
-          %span 19
-      %li.tile
-        %a{:href => "#"}
-          %span 20
-    
-    #tabs
-      .tab Note
-      .tab View
-      .tab Knot
+      &nbsp;
+    #ui
+      #meta
+        &nbsp;
+      %form#user
+        %input#username{:type => "text", :value => "daug2"}
+        %input#reset{:type => "button", :value => "Reset"}
+      #upboats
+        %a.inc{:href => "#"} +
+        &nbsp;
+        %a.dec{:href => "#"} -

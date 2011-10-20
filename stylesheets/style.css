@@ -44,7 +44,9 @@ table {
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin: 0 !important; }
+  margin: 0 !important;
+  background: black;
+  color: white; }
 
 h1 {
   display: none; }
@@ -52,17 +54,80 @@ h1 {
 #app {
   margin-left: auto;
   margin-right: auto;
-  width: 480px; }
+  width: 960px; }
 
-#tabs {
+#ui {
   display: inline;
   float: left;
-  width: 360px;
+  width: 800px;
   display: inline-block;
   display: block;
   margin-top: 0;
   margin-bottom: 0;
-  padding-left: 120px; }
+  margin-left: 90px; }
+  #ui:after {
+    clear: both;
+    content: " ";
+    display: block;
+    font-size: 0;
+    line-height: 0;
+    visibility: hidden;
+    width: 0;
+    height: 0; }
+  * html #ui {
+    height: 1%; }
+  #ui #meta {
+    color: #999999;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 16px;
+    z-index: 999;
+    display: inline;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 300px; }
+  #ui form {
+    display: inline;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 300px; }
+    #ui form #username {
+      width: 140px; }
+    #ui form #reset {
+      margin-left: 20px; }
+  #ui #upboats {
+    display: inline;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 140px;
+    text-align: right; }
+    #ui #upboats a {
+      text-decoration: none;
+      font-weight: bold;
+      background: white;
+      color: black;
+      padding: 8px 16px;
+      line-height: 30px; }
+
+#tabs {
+  display: inline;
+  float: left;
+  width: 480px;
+  display: inline-block;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 160px;
+  display: none; }
   #tabs:after {
     clear: both;
     content: " ";
@@ -81,9 +146,9 @@ h1 {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 100px;
-    height: 40px;
-    line-height: 40px;
+    width: 140px;
+    height: 60px;
+    line-height: 60px;
     background: #666666;
     background: -moz-linear-gradient(top, #222222 0%, #666666 50%, #333333 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #222222), color-stop(50%, #666666), color-stop(100%, #333333));
@@ -99,17 +164,67 @@ h1 {
     -moz-border-radius: 5;
     -o-border-radius: 5; }
 
+#query {
+  display: inline;
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 780px;
+  padding-left: 80px;
+  padding-right: 80px;
+  padding-top: 20px;
+  text-align: center;
+  line-height: 16px; }
+  #query span span {
+    background: #888888;
+    padding: 5px;
+    border-radius: 3;
+    -webkit-border-radius: 3;
+    -moz-border-radius: 3;
+    -o-border-radius: 3;
+    margin: 0 5px; }
+  #query .query_person {
+    background: #cbcb00; }
+  #query .query_place {
+    background: #fe6633; }
+  #query .query_tag {
+    background: #29abe2; }
+  #query .query_time {
+    background: #fe3c6e; }
+
 #tiles {
-  margin-top: 10px; }
-  #tiles .tile {
+  margin-top: 10px;
+  display: inline;
+  float: left;
+  width: 800px;
+  display: inline-block;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 90px;
+  margin-right: 90px; }
+  #tiles:after {
+    clear: both;
+    content: " ";
+    display: block;
+    font-size: 0;
+    line-height: 0;
+    visibility: hidden;
+    width: 0;
+    height: 0; }
+  * html #tiles {
+    height: 1%; }
+  #tiles .tile, #tiles .query {
     display: inline;
     float: left;
-    width: 120px;
+    width: 160px;
     display: inline-block;
     display: block;
     margin-top: 0;
     margin-bottom: 0; }
-    #tiles .tile:after {
+    #tiles .tile:after, #tiles .query:after {
       clear: both;
       content: " ";
       display: block;
@@ -118,107 +233,171 @@ h1 {
       visibility: hidden;
       width: 0;
       height: 0; }
-    * html #tiles .tile {
+    * html #tiles .tile, * html #tiles .query {
       height: 1%; }
-    #tiles .tile a {
+    #tiles .tile a, #tiles .query a {
+      position: relative;
       display: inline;
       float: left;
       margin-left: 10px;
       margin-right: 10px;
       margin-top: 10px;
       margin-bottom: 10px;
-      width: 100px;
+      width: 140px;
       border-radius: 5;
       -webkit-border-radius: 5;
       -moz-border-radius: 5;
       -o-border-radius: 5;
-      box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.66);
-      -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.66);
-      -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.66);
-      -o-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.66);
+      box-shadow: inset 0px 1px 60px rgba(0, 0, 0, 0.28);
+      -webkit-box-shadow: inset 0px 1px 60px rgba(0, 0, 0, 0.28);
+      -moz-box-shadow: inset 0px 1px 60px rgba(0, 0, 0, 0.28);
+      -o-box-shadow: inset 0px 1px 60px rgba(0, 0, 0, 0.28);
       color: white;
       background: #cccccc;
-      width: 100px;
-      height: 100px;
-      line-height: 100px;
+      border: 2px solid #cccccc;
+      width: 136px;
+      height: 136px;
+      line-height: 136px;
       font-weight: bold;
       text-align: center;
-      text-decoration: none; }
-    #tiles .tile span {
+      text-decoration: none;
+      overflow: hidden; }
+    #tiles .tile em, #tiles .query em {
+      position: absolute;
+      display: block;
+      top: 0;
+      right: 4px;
+      line-height: 20px;
+      opacity: 0.5;
+      color: white; }
+    #tiles .tile span, #tiles .query span {
       text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(128, 128, 128, 0.66);
       -webkit-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(128, 128, 128, 0.66);
       -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(128, 128, 128, 0.66);
       -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(128, 128, 128, 0.66);
-      font-weight: bold; }
-  #tiles .time a:hover {
-    background: #fa2991;
-    background: -moz-linear-gradient(top, #f00078 0%, #fa2991 50%, #ff0a85 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f00078), color-stop(50%, #fa2991), color-stop(100%, #ff0a85));
-    background: -webkit-linear-gradient(top, #f00078 0%, #fa2991 50%, #ff0a85 100%);
-    background: -o-linear-gradient(top, #f00078 0%, #fa2991 50%, #ff0a85 100%);
-    background: -ms-linear-gradient(top, #f00078 0%, #fa2991 50%, #ff0a85 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f00078", endColorstr="#ff0a85",GradientType=0 );
-    background: linear-gradient(top, #f00078 0%, #fa2991 50%, #ff0a85 100%); }
-  #tiles .time a {
-    background: #f5479e;
-    background: -moz-linear-gradient(top, #d6006b 0%, #f5479e 50%, #ff0a85 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d6006b), color-stop(50%, #f5479e), color-stop(100%, #ff0a85));
-    background: -webkit-linear-gradient(top, #d6006b 0%, #f5479e 50%, #ff0a85 100%);
-    background: -o-linear-gradient(top, #d6006b 0%, #f5479e 50%, #ff0a85 100%);
-    background: -ms-linear-gradient(top, #d6006b 0%, #f5479e 50%, #ff0a85 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#d6006b", endColorstr="#ff0a85",GradientType=0 );
-    background: linear-gradient(top, #d6006b 0%, #f5479e 50%, #ff0a85 100%); }
-  #tiles .person a:hover {
-    background: #cdee2b;
-    background: -moz-linear-gradient(top, #b8da0b 0%, #cdee2b 50%, #ccf20d 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b8da0b), color-stop(50%, #cdee2b), color-stop(100%, #ccf20d));
-    background: -webkit-linear-gradient(top, #b8da0b 0%, #cdee2b 50%, #ccf20d 100%);
-    background: -o-linear-gradient(top, #b8da0b 0%, #cdee2b 50%, #ccf20d 100%);
-    background: -ms-linear-gradient(top, #b8da0b 0%, #cdee2b 50%, #ccf20d 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b8da0b", endColorstr="#ccf20d",GradientType=0 );
-    background: linear-gradient(top, #b8da0b 0%, #cdee2b 50%, #ccf20d 100%); }
-  #tiles .person a {
-    background: #cfeb47;
-    background: -moz-linear-gradient(top, #a3c20a 0%, #cfeb47 50%, #ccf20d 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a3c20a), color-stop(50%, #cfeb47), color-stop(100%, #ccf20d));
-    background: -webkit-linear-gradient(top, #a3c20a 0%, #cfeb47 50%, #ccf20d 100%);
-    background: -o-linear-gradient(top, #a3c20a 0%, #cfeb47 50%, #ccf20d 100%);
-    background: -ms-linear-gradient(top, #a3c20a 0%, #cfeb47 50%, #ccf20d 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#a3c20a", endColorstr="#ccf20d",GradientType=0 );
-    background: linear-gradient(top, #a3c20a 0%, #cfeb47 50%, #ccf20d 100%); }
-  #tiles .place a:hover {
-    background: #f98c1f;
-    background: -moz-linear-gradient(top, #e67300 0%, #f98c1f 50%, #ff8000 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e67300), color-stop(50%, #f98c1f), color-stop(100%, #ff8000));
-    background: -webkit-linear-gradient(top, #e67300 0%, #f98c1f 50%, #ff8000 100%);
-    background: -o-linear-gradient(top, #e67300 0%, #f98c1f 50%, #ff8000 100%);
-    background: -ms-linear-gradient(top, #e67300 0%, #f98c1f 50%, #ff8000 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e67300", endColorstr="#ff8000",GradientType=0 );
-    background: linear-gradient(top, #e67300 0%, #f98c1f 50%, #ff8000 100%); }
-  #tiles .place a {
-    background: #f5993d;
-    background: -moz-linear-gradient(top, #cc6600 0%, #f5993d 50%, #ff8000 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cc6600), color-stop(50%, #f5993d), color-stop(100%, #ff8000));
-    background: -webkit-linear-gradient(top, #cc6600 0%, #f5993d 50%, #ff8000 100%);
-    background: -o-linear-gradient(top, #cc6600 0%, #f5993d 50%, #ff8000 100%);
-    background: -ms-linear-gradient(top, #cc6600 0%, #f5993d 50%, #ff8000 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#cc6600", endColorstr="#ff8000",GradientType=0 );
-    background: linear-gradient(top, #cc6600 0%, #f5993d 50%, #ff8000 100%); }
-  #tiles .tag a:hover {
-    background: #2bb3ee;
-    background: -moz-linear-gradient(top, #0b9cda 0%, #2bb3ee 50%, #0dadf2 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #0b9cda), color-stop(50%, #2bb3ee), color-stop(100%, #0dadf2));
-    background: -webkit-linear-gradient(top, #0b9cda 0%, #2bb3ee 50%, #0dadf2 100%);
-    background: -o-linear-gradient(top, #0b9cda 0%, #2bb3ee 50%, #0dadf2 100%);
-    background: -ms-linear-gradient(top, #0b9cda 0%, #2bb3ee 50%, #0dadf2 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0b9cda", endColorstr="#0dadf2",GradientType=0 );
-    background: linear-gradient(top, #0b9cda 0%, #2bb3ee 50%, #0dadf2 100%); }
-  #tiles .tag a {
-    background: #47baeb;
-    background: -moz-linear-gradient(top, #0a8bc2 0%, #47baeb 50%, #0dadf2 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #0a8bc2), color-stop(50%, #47baeb), color-stop(100%, #0dadf2));
-    background: -webkit-linear-gradient(top, #0a8bc2 0%, #47baeb 50%, #0dadf2 100%);
-    background: -o-linear-gradient(top, #0a8bc2 0%, #47baeb 50%, #0dadf2 100%);
-    background: -ms-linear-gradient(top, #0a8bc2 0%, #47baeb 50%, #0dadf2 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0a8bc2", endColorstr="#0dadf2",GradientType=0 );
-    background: linear-gradient(top, #0a8bc2 0%, #47baeb 50%, #0dadf2 100%); }
+      font-weight: bold;
+      font-size: 24px; }
+  #tiles .query_time a {
+    background: black;
+    border-color: #fe3c6e;
+    color: white; }
+    #tiles .query_time a span {
+      text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 60, 110, 0.33);
+      -webkit-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 60, 110, 0.33);
+      -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 60, 110, 0.33);
+      -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 60, 110, 0.33);
+      font-size: 32px; }
+  #tiles .tile_time a {
+    background: #fe3c6e;
+    border-color: #fe3c6e; }
+  #tiles .tile_place_0 a {
+    background: #fe3c6e;
+    border-color: #fe3c6e; }
+  #tiles .tile_place_1 a {
+    background: #e94771;
+    border-color: #e94771; }
+  #tiles .tile_place_2 a {
+    background: #d75173;
+    border-color: #d75173; }
+  #tiles .tile_place_3 a {
+    background: #c95875;
+    border-color: #c95875; }
+  #tiles .tile_place_4 a {
+    background: #bd5f77;
+    border-color: #bd5f77; }
+  #tiles .tile_place_5 a {
+    background: #b26478;
+    border-color: #b26478; }
+  #tiles .query_person a, #tiles .query_delegate_in a, #tiles .query_delegate_out a {
+    background: black;
+    border-color: #cbcb00;
+    color: white; }
+    #tiles .query_person a span, #tiles .query_delegate_in a span, #tiles .query_delegate_out a span {
+      text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(203, 203, 0, 0.33);
+      -webkit-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(203, 203, 0, 0.33);
+      -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(203, 203, 0, 0.33);
+      -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(203, 203, 0, 0.33);
+      font-size: 32px; }
+  #tiles .tile_person a, #tiles .tile_delegate_in a, #tiles .tile_delegate_out a {
+    background: #cbcb00;
+    border-color: #cbcb00; }
+  #tiles .tile_person_0 a {
+    background: #cbcb00;
+    border-color: #cbcb00; }
+  #tiles .tile_person_1 a {
+    background: #bebe15;
+    border-color: #bebe15; }
+  #tiles .tile_person_2 a {
+    background: #b4b427;
+    border-color: #b4b427; }
+  #tiles .tile_person_3 a {
+    background: #abab36;
+    border-color: #abab36; }
+  #tiles .tile_person_4 a {
+    background: #a4a442;
+    border-color: #a4a442; }
+  #tiles .tile_person_5 a {
+    background: #9e9e4c;
+    border-color: #9e9e4c; }
+  #tiles .query_place a {
+    background: black;
+    border-color: #fe6633;
+    color: white; }
+    #tiles .query_place a span {
+      text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 102, 51, 0.33);
+      -webkit-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 102, 51, 0.33);
+      -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 102, 51, 0.33);
+      -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 102, 51, 0.33);
+      font-size: 32px; }
+  #tiles .tile_place a {
+    background: #fe6633;
+    border-color: #fe6633; }
+  #tiles .tile_place_0 a {
+    background: #fe6633;
+    border-color: #fe6633; }
+  #tiles .tile_place_1 a {
+    background: #e96a40;
+    border-color: #e96a40; }
+  #tiles .tile_place_2 a {
+    background: #d76e4a;
+    border-color: #d76e4a; }
+  #tiles .tile_place_3 a {
+    background: #c97153;
+    border-color: #c97153; }
+  #tiles .tile_place_4 a {
+    background: #bd735b;
+    border-color: #bd735b; }
+  #tiles .tile_place_5 a {
+    background: #b27561;
+    border-color: #b27561; }
+  #tiles .query_tag a {
+    background: black;
+    border-color: #29abe2;
+    color: white; }
+    #tiles .query_tag a span {
+      text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(41, 171, 226, 0.33);
+      -webkit-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(41, 171, 226, 0.33);
+      -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(41, 171, 226, 0.33);
+      -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(41, 171, 226, 0.33);
+      font-size: 32px; }
+  #tiles .tile_tag a {
+    background: #29abe2;
+    border-color: #29abe2; }
+  #tiles .tile_tag_0 a {
+    background: #29abe2;
+    border-color: #29abe2; }
+  #tiles .tile_tag_1 a {
+    background: #37a4d2;
+    border-color: #37a4d2; }
+  #tiles .tile_tag_2 a {
+    background: #439ec4;
+    border-color: #439ec4; }
+  #tiles .tile_tag_3 a {
+    background: #4d99b9;
+    border-color: #4d99b9; }
+  #tiles .tile_tag_4 a {
+    background: #5694af;
+    border-color: #5694af; }
+  #tiles .tile_tag_5 a {
+    background: #5d91a7;
+    border-color: #5d91a7; }

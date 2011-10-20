@@ -1,13 +1,38 @@
-$width: 480
-$columns: 16
+$width: 960
+$columns: 24
 $gutter: 20
 
 $tile_color: #CCC
 
-$person_color: hsl(70, 90%, 50%)  
-$place_color: hsl(30, 100%, 50%)
-$time_color: hsl(330, 100%, 52%)
-$tag_color: hsl(198, 90%, 50%)
+// $person_color: hsl(60, 85%, 45%)  
+// $place_color: hsl(15, 80%, 50%)
+// $time_color: hsl(330, 100%, 52%)
+// $tag_color: hsl(198, 90%, 50%)
+
+$foreground_color: white
+$background_color: black
+
+$person_color: #CBCB00
+$place_color: #FE6633
+$time_color: #FE3C6E
+$tag_color: #29ABE2
+
+=full_tile($c)
+  background: $background_color
+  border-color: $c
+  color: $foreground_color
+  span
+    +text-shadows(0px -1px 1px rgba(0,0,0,.4), 0px 1px 0px rgba($c,.33))
+    font-size: 32px
+    // text-shadow: none
+    // -webkit-text-shadow: none
+    // -moz-text-shadow: none
+    // -o-text-shadow: none
+    // -webkit-text-stroke: 1px solid $background_color
+=void_tile($c, $opacity: 0)
+  $opacity: 1 - ($opacity / 5)/2
+  background: $c
+  border-color: $c
 
 @import ../sass_lib/reset
 @import ../sass_lib/grid_system
@@ -17,39 +42,95 @@ $tag_color: hsl(198, 90%, 50%)
 body
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
   margin: 0 !important
-  
+  background: $background_color
+  color: $foreground_color
 h1
   display: none
-
+  
 #app
   +container
+  
+#ui
+  +layout(20)
+  +prefix(2)
+  
+  #meta
+    color: #999
+    font-weight: bold
+    font-style: italic
+    font-size: 16px
+    z-index: 999
+    +column(8)
+  form
+    +column(8)
+    #username
+      width: $column * 7 + $unit
+    #reset
+      margin-left: $gutter + $unit
+  #upboats
+    +column(4)
+    text-align: right
+    a
+      text-decoration: none
+      font-weight: bold
+      background: white
+      color: black
+      padding: 8px 16px
+      line-height: 30px
 
 #tabs
   +layout(12)
   +prepend(4)
+  display: none
   .tab
     +column(4)
     $size_2_c: 2 * $column + 1 * $gutter + $unit
     height: $size_2_c
     line-height: $size_2_c
     +gradient(#222, #666, #333)
-    color: white
+    color: $foreground_color
     text-align: center
     +border-radius(5)
 
+#query
+  +column(20)
+  +prepend(2)
+  +append(2)
+  padding-top: $gutter + $unit
+  text-align: center
+  line-height: 16px
+  span span
+    background: #888
+    padding: 5px
+    +border-radius(3)
+    margin: 0 5px
+  .query_person
+    background: $person_color
+  .query_place
+    background: $place_color
+  .query_tag
+    background: $tag_color
+  .query_time
+    background: $time_color
+
 #tiles
   margin-top: $gutter/2 + $unit
-  .tile
+  +layout(20)
+  +prefix(2)
+  +suffix(2)
+  .tile, .query
     +layout(4)
     a
+      position: relative
       +column(4)
       +border-radius(5)
-      +box-shadow(0px, 1px, 1px, rgba(0,0,0,.66))
+      +inset-shadow(0px, 1px, 60px, rgba(0,0,0,.28))
 
-      color: white
+      color: $foreground_color
       background: $tile_color
+      border: 2px solid $tile_color
 
-      $size_4_c: 4 * $column + 3 * $gutter + $unit
+      $size_4_c: 4 * $column + 3 * $gutter - 4 + $unit
       width: $size_4_c
       height: $size_4_c
       line-height: $size_4_c
@@ -57,33 +138,78 @@ h1
       font-weight: bold
       text-align: center
       text-decoration: none
+      
+      overflow: hidden
 
+    em
+      position: absolute
+      display: block
+      top: 0
+      right: 4px
+      line-height: 20px
+      opacity: .5
+      color: white
       
     span
       +text-shadows(0px -1px 1px rgba(0,0,0,.4), 0px 1px 0px rgba(128,128,128,.66))
       font-weight: bold
-  // icon types    
-  .time
-    a:hover
-      +gradient(darken($time_color, 5%), lighten(desaturate($time_color, 5%), 5%), $time_color)
+      font-size: 24px
+  // icon types
+  .query_time
     a
-      +gradient(darken($time_color, 10%), lighten(desaturate($time_color, 10%), 10%), $time_color) 
+      // +gradient(darken($time_color, 5%), lighten(desaturate($time_color, 5%), 5%), $time_color)
+      +full_tile($time_color)
+  .tile_time
+    a
+      // +gradient(darken($time_color, 10%), lighten(desaturate($time_color, 10%), 10%), $time_color)
+      +void_tile($time_color)
+  $i: 0
+  @each $color in #fe3c6e, #e94771, #d75173, #c95875, #bd5f77, #b26478
+    .tile_place_#{$i} a
+      +void_tile($color)
+      $i: $i + 1
+
     
-  .person
-    a:hover
-      +gradient(darken($person_color, 5%), lighten(desaturate($person_color, 5%), 5%), $person_color)
+  .query_person, .query_delegate_in, .query_delegate_out
     a
-      +gradient(darken($person_color, 10%), lighten(desaturate($person_color, 10%), 10%), $person_color)  
+      +full_tile($person_color)
+      // +gradient(darken($person_color, 5%), lighten(desaturate($person_color, 5%), 5%), $person_color)
+  .tile_person, .tile_delegate_in, .tile_delegate_out
+    a
+      +void_tile($person_color)
+      // +gradient(darken($person_color, 10%), lighten(desaturate($person_color, 10%), 10%), $person_color)
+  $i: 0
+  @each $color in #cbcb00, #bebe15, #b4b427, #abab36, #a4a442, #9e9e4c
+    .tile_person_#{$i} a
+      +void_tile($color)
+      $i: $i + 1
 
-  .place
-    a:hover
-      +gradient(darken($place_color, 5%), lighten(desaturate($place_color, 5%), 5%), $place_color)
+  .query_place
     a
-      +gradient(darken($place_color, 10%), lighten(desaturate($place_color, 10%), 10%), $place_color)
+      +full_tile($place_color)
+      // +gradient(darken($place_color, 5%), lighten(desaturate($place_color, 5%), 5%), $place_color)
+  .tile_place
+    a
+      +void_tile($place_color)
+      // +gradient(darken($place_color, 10%), lighten(desaturate($place_color, 10%), 10%), $place_color)
+  $i: 0
+  @each $color in #fe6633, #e96a40, #d76e4a, #c97153, #bd735b, #b27561
+    .tile_place_#{$i} a
+      +void_tile($color)
+      $i: $i + 1
 
-  .tag
-    a:hover
-      +gradient(darken($tag_color, 5%), lighten(desaturate($tag_color, 5%), 5%), $tag_color)
+
+  .query_tag
     a
-      +gradient(darken($tag_color, 10%), lighten(desaturate($tag_color, 10%), 10%), $tag_color)
+      +full_tile($tag_color)
+      // +gradient(darken($tag_color, 5%), lighten(desaturate($tag_color, 5%), 5%), $tag_color)
+  .tile_tag
+    a
+      +void_tile($tag_color)
+      // +gradient(darken($tag_color, 10%), lighten(desaturate($tag_color, 10%), 10%), $tag_color)
+  $i: 0
+  @each $color in #29abe2, #37a4d2, #439ec4, #4d99b9, #5694af, #5d91a7
+    .tile_tag_#{$i} a
+      +void_tile($color)
+      $i: $i + 1
 

@@ -1,70 +1,89 @@
-//var data = {"tiles":["+mlakar","#awesome","#now","@cool","#mima","+vida","#project","~now","~today","#cht","#wtf","#asap","#idea","+drazen","#secret","#domain","#health","#drugs","#music","#legal","#startup"],"meta":"lol"}
-
 $(function(){
-
-var data = {
-  "tiles": [
-            {kind: "person", content: "mlakar"},
-            {kind: "tag", content: "awesome"},
-            {kind: "tag", content: "now"},
-            {kind: "place", content: "home"},
-            {kind: "time", content: "now"},
-            {kind: "time", content: "today"}
-      ],
-  "meta":"lol"
+window._jqjsp= function (response) {
+  Tiles.reset(response.entities.splice(0,15))
+//  Tiles.reset(response.entities)
+  $("#meta").html(response.meta)
+  console.log("_jqjsp")
 }
 
+var server = "192.168.1.111:8080"
+var path = "/BTW/relevant/"
+//var server = "193.9.21.195:8999"
+var username = $("#username").val()
 
-//{"tiles":["+mlakar","#awesome","#now","#cool","#mima","+vida","#project","#tobuy","#middlemachine","#cht","#wtf","#asap","#idea","+drazen","#secret","#domain","#health","#drugs","#music","#legal","#startup"],"meta":"lol"}
-// časi itn zgledajo kot
-// ~5min
-//var data = {
-//  "tiles": [
-//    "+mlakar",
-//    "#awesome"
-//  ]
-//}
+var demo_data = {
+  "entities": [
+            {'type': "TAG", label: "awesome", w: 1, icon: "0"},
+            {'type': "PLACE", label: "home", w: 3, icon: "0"},
+            {'type': "TIME", label: "now", w: 5, icon: "0"},
+            {'type': "TIME", label: "today", w: 3, icon: "0"}
+      ],
+  "meta":"demo data"
+}
 
-//TODO breadcrumb or query display
-//TODO blank slate creators
+var static_launchpad = {
+  "entities": [
+    {'type': 'person query', label: "+"},
+    {'type': 'delegate_in query', label: "<"},
+    {'type': 'delegate_out query', label: ">"},
+    {'type': 'tag query', label: "#"},
+    {'type': 'place query', label: "@"}
+  ]
+}
 
 var TileModel = Backbone.Model.extend({
-  // parse: function(obj) {
-  //     console.log("parsing tilemodel")
-  //     var kind = obj.substr(0, 1)
-  //     var content = obj.substr(1, obj.length)
-  //     switch (kind) {
-  //     case "+": kind = "person"
-  //               break
-  //     case "#": kind = "tag"
-  //               break
-  //     case "@": kind = "place"
-  //               break
-  //     case "~": kind = "time"
-  //               break
-  //     case "?": kind = "query"
-  //     }
-  //     return {"content": content, "kind": kind}
-  //   }
+  defaults: {
+    shade: 0
+  },
+  parse: function(values) {
+    var result = {}
+    // seperate first word (query etc)
+    var typ = values.type
+    var i = typ.indexOf(" ")
+    if (i > 0) {
+      if (typ.indexOf("query") > 0) {result.query = true}
+      typ = typ.substr(0, i)
+    }
+    // define kind
+    switch (typ.toUpperCase()) {
+      case "TAG": result.kind = "tag"
+        break
+      case "PERSON": result.kind = "person"
+        break
+      case "DELEGATE_IN": result.kind = "delegate_in"
+        break
+      case "DELEGATE_OUT": result.kind = "delegate_out"
+        break
+      case "PLACE": result.kind = "place"
+        break
+      case "TIME": result.kind = "time"
+        break
+      default: result.kind = "tile"
+    }
+
+    result.content = values.label
+    result.weight = (_.isString(values.w)) ? values.w : ""
+
+    return result
+  },
+  
   toString: function() {
     var res = ""
-    switch(this.get("kind")) {
-      case "person": res+="+"
+    switch(this.get("kind").toUpperCase()) {
+      case "PERSON": res+="+"
             break
-      case "tag": res+="#"
+      case "TAG": res+="#"
             break
-      case "place": res+="@"
+      case "PLACE": res+="@"
             break
-      case "time": res+="~"
+      case "TIME": res+="~"
     }
     res += this.get("content")
     return res
   },
-  query: function() {
-    console.log("TileModel#query")
-  },
+  
   initialize: function(obj) {
-    this.set({content: obj.content, kind: obj.kind})
+    this.set(this.parse(obj))
   }
 })
 
@@ -72,8 +91,25 @@ var TileCollection = Backbone.Collection.extend({
   model: TileModel
 })
 
+var QueryModel = Backbone.Model.extend({})
+
+var QueryCollection = Backbone.Collection.extend({
+  model: QueryModel,
+  toString: function() {
+    var res = ""
+    var models = this.models
+    $.each(models, function(i, m) {
+      res += m.toString()
+      if (i < models.length - 1) {
+        res += ","
+      }
+    })
+    return res
+  }
+})
+
 var TileView = Backbone.View.extend({
-  template: _.template("<li class='tile <%= kind %>'><a href='#'><span><%= content %></span></a></li>"),
+  template: _.template("<li class='tile tile_<%= kind %> tile_<%= kind %>_<%= shade %>'><a href='#'><span><%= content %></span><em><%= Math.round(weight*10)/10 %></em></a></li>"),
   events: {
     "click a": "query" 
   },
@@ -83,92 +119,165 @@ var TileView = Backbone.View.extend({
   render: function() {
     $(this.el).html(this.template(this.model.attributes))
     return this
+  },
+  initialize: function() {
+    _.bindAll(this, 'render')
+    Tiles.bind("change", this.render)
   }
 })
 
-var AppView = Backbone.View.extend({
+var TileQueryView = Backbone.View.extend({
+  template: _.template("<li class='tile query_<%= kind %>'><a href='#'><span><%= content %></span></a></li>"),
+  events: {
+    "click a": "query"
+  },
+  query: function() {
+    doTypeQuery(this.model)
+  },
+  render: function() {
+    $(this.el).html(this.template(this.model.attributes))
+    return this
+  }
+})
+
+var QueryView = Backbone.View.extend({
+  tagName: 'span',
+  template: _.template("<span class='query_tile query_<%= kind %>'><%= content %></span>"),
+  render: function() {
+    $(this.el).html(this.template(this.model.attributes))
+    return this
+  }
+})
+
+var QueryCollectionView = Backbone.View.extend ({
+  el: "#query",
+  initialize: function() {
+    _.bindAll(this, 'addOne')
+    Queries.bind("add", this.addOne, this)
+    Queries.bind("reset", this.reset, this)
+  },
+  addOne: function(query) {
+    var view = new QueryView({model: query})
+    $(this.el).append(view.render().el)
+  },
+  reset: function() {
+    $(this.el).html("")
+  }
+})
+
+var TileCollectionView = Backbone.View.extend({
   el: "#app",
   initialize: function() {
     _.bindAll(this, 'addOne', 'addAll')
     Tiles.bind("add", this.addOne, this)
-    Tiles.bind("reset", this.addAll, this)
+    Tiles.bind("reset", this.reset, this)
   },
   addOne: function(tile) {
-    var view = new TileView({model: tile})
+    var view = (tile.get("query") == true) ? new TileQueryView({model: tile}) : new TileView({model: tile})
     this.$("#tiles").append(view.render().el)
+  },
+  applyWeights: function() {
+    // normalize info
+    var max = 0
+    var min = 9007199254740992
+  
+    Tiles.each(function(tile) {
+      var tw = tile.get('weight')
+      if (_.isString(tw)) {
+        tw = parseFloat(tw)
+        if (tw < min) { min = tw }
+        if (tw > max) { max = tw }
+      }
+    })
+
+    var delta = max - min
+    
+    Tiles.each(function(tile) {
+      var tw = tile.get('weight')
+      if (_.isString(tw)) {
+        tw = parseFloat(tw)
+        var dif = tw - min
+        var val = (dif) / (delta / 5)
+        val = Math.abs(5 - Math.round(val))
+        tile.set({'shade': val})
+      }
+
+    })
   },
   addAll: function() {
     Tiles.each(this.addOne)
+    this.applyWeights()
+  },
+  reset: function() {
+    this.$("#tiles").empty()
+    this.addAll()
   }
 })
 
-//_.each(data.tiles, function(tile) {
-//  var t = new TileModel({text: tile})
-  //console.log(t.get("content"))
-//})
+Queries = new QueryCollection()
+QueryList = new QueryCollectionView()
+
 Tiles = new TileCollection()
-App = new AppView()
+TileList = new TileCollectionView()
 
-Tiles.reset(data.tiles)
-
-
-// /related/q="+mlakar,+srdjan,#lol"&type="#"&limit=10%pg=2
-// #<>+@
-
-var QueryModel = Backbone.Model.extend({
-  terms: [],
-  add: function(t) {
-    this.terms.push(t.toString())
-  },
-  getTerms: function() {
-    return this.terms
-  },
-  toString: function() {
-    var res = ""
-    var dis = this
-    $.each(this.terms, function(i, t) {
-      res += t.toString()
-      if (i < dis.terms.length - 1) {
-        res += ","
-      }
-    })
-    return res
-  },
-  initialize: function(values) {
-    this.terms = []
+var jax = function(data, silent) {
+  data.secret = "admin123"
+  var url = "http://"+server+path+$("#username").val()
+  var dt = ""
+  
+  if (silent != true) {
+    dt = "jsonp"
+    data.json_callback = '_jqjsp'
+  } else {
+    dt = "json"
   }
-})
-
-var resetCollection = function(data, textStatus, jqXHR) {
-  Tile.reset(data.tiles)
+  $.ajax(url, {
+    dataType: dt,
+    data: data
+  })
 }
-
-var CurrentQuery = new QueryModel()
-
+  
 var doQuery = function(query) {
-  CurrentQuery.add(query)
-  console.log("doQuery", CurrentQuery.getTerms())
-  $.ajax("/BTW/relevant", {
-    data: {
-      q: CurrentQuery.toString()
-    },
-    success: resetCollection
-  })
-}
-var doType = function(typ) {
-  $.ajax("/related", {
-    data: {
-      type: typ
-    }
-  })
+  Queries.add(query)  
+  var data = {q: Queries.toString()}
+  console.log("doQuery", data)
+  jax(data)
 }
 
+var upBoats = function(e) {
+  var data = {q: Queries.toString(), vote:"1"}
+  console.log("upBoats", data)
+  jax(data)
+}
+$("#upboats a.inc").click(upBoats)
+var downBoats = function(e) {
+  var data = {q: Queries.toString(), vote:"-1"}
+  jax(data)
+}
+$("#upboats a.dec").click(downBoats)
 
+var doTypeQuery = function(model) {
+  var data = {type: model.get("kind").toUpperCase()}
+  jax(data)
+}
 
 var firstRequest = function() {
-  $.ajax("/first")
+  Queries.reset()  
+  jax({})
 }
 
+var resetSession = function() {
+  Queries.reset()  
+  var data = {reset: "true"}
+  //jax(data)
+  Tiles.reset(static_launchpad.entities)
+}
+$("#reset").click(function(e){
+  resetSession()
+})
+
+//firstRequest()
+Tiles.reset(static_launchpad.entities)
+//Tiles.reset(demo_data.entities)
 
 })
-//Tiles.reset(firstRequest())

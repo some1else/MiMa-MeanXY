@@ -1,5 +1,5 @@
 $width: 960
-$columns: 24
+$columns: 20
 $gutter: 20
 
 $tile_color: #CCC
@@ -16,6 +16,7 @@ $person_color: #CBCB00
 $place_color: #FE6633
 $time_color: #FE3C6E
 $tag_color: #29ABE2
+$knot_color: #333
 
 =full_tile($c)
   background: $background_color
@@ -23,7 +24,8 @@ $tag_color: #29ABE2
   color: $foreground_color
   span
     +text-shadows(0px -1px 1px rgba(0,0,0,.4), 0px 1px 0px rgba($c,.33))
-    font-size: 32px
+    font-size: 42px
+    line-height: $column * 4 + $gutter * 3 - 8 + $unit
     // text-shadow: none
     // -webkit-text-shadow: none
     // -moz-text-shadow: none
@@ -52,8 +54,6 @@ h1
   
 #ui
   +layout(20)
-  +prefix(2)
-  
   #meta
     color: #999
     font-weight: bold
@@ -75,8 +75,8 @@ h1
       font-weight: bold
       background: white
       color: black
-      padding: 8px 16px
-      line-height: 30px
+      padding: ($gutter/2 + $unit) ($gutter / 2 + $unit)
+      line-height: $gutter *1.5 + $unit
 
 #tabs
   +layout(12)
@@ -92,35 +92,35 @@ h1
     text-align: center
     +border-radius(5)
 
-#query
+#breadcrumbs
   +column(20)
-  +prepend(2)
-  +append(2)
   padding-top: $gutter + $unit
   text-align: center
   line-height: 16px
   span span
     background: #888
     padding: 5px
-    +border-radius(3)
+    +border-radius(3px)
     margin: 0 5px
-  .query_person
+    cursor: pointer
+  .breadcrumb_person
     background: $person_color
-  .query_place
+  .breadcrumb_place
     background: $place_color
-  .query_tag
+  .breadcrumb_tag
     background: $tag_color
-  .query_time
+  .breadcrumb_time
     background: $time_color
 
 #tiles
+  position: relative
   margin-top: $gutter/2 + $unit
-  +layout(20)
-  +prefix(2)
-  +suffix(2)
+  +layout(16)
+  height: $columns * $column + ($column * $gutter) + $unit
   .tile, .query
     +layout(4)
     a
+      cursor: pointer
       position: relative
       +column(4)
       +border-radius(5)
@@ -151,9 +151,17 @@ h1
       color: white
       
     span
-      +text-shadows(0px -1px 1px rgba(0,0,0,.4), 0px 1px 0px rgba(128,128,128,.66))
+      +text-shadows(-0.8px -1px 1px rgba(0,0,0,.66), 0.8px 1px 0 rgba(255,255,255,.2))
       font-weight: bold
       font-size: 24px
+  @for $x from 0 through $columns/4
+    .tile_x_#{$x}
+      position: absolute
+      left: $x * ($column * 4 + $gutter * 4) + $unit
+  @for $y from 0 through $columns/4
+    .tile_y_#{$y}
+      position: absolute
+      top: ($y * ($column * 4 + $gutter * 4)) + $unit
   // icon types
   .query_time
     a
@@ -213,3 +221,22 @@ h1
       +void_tile($color)
       $i: $i + 1
 
+  .query_knot
+    a
+      +void_tile($knot_color) 
+      span
+        font-size: 42px
+        line-height: $column * 4 + $gutter * 3 - 8 + $unit
+
+#entries
+  +layout(4)
+  .entry
+    +column(4)
+    background: #333
+    +border-radius(5px)
+    h1, p
+      display: block
+      padding: 8px 10px
+      a
+        text-decoration: none
+        color: $tag_color

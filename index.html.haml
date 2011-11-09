@@ -9,17 +9,19 @@
 %body
   %h1 MeanXY
   #app
-    #query
-      &nbsp;
-    %ul#tiles
-      &nbsp;
     #ui
       #meta
         &nbsp;
       %form#user
-        %input#username{:type => "text", :value => "daug2"}
+        %input#username{:type => "text", :value => "dev@middlemachine.com"}
         %input#reset{:type => "button", :value => "Reset"}
       #upboats
         %a.inc{:href => "#"} +
         &nbsp;
         %a.dec{:href => "#"} -
+    #breadcrumbs
+      &nbsp;
+    %ul#tiles
+      &nbsp;
+    #entries
+      &nbsp;

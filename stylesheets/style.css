@@ -99,11 +99,11 @@ h1 {
     width: 340px;
     display: none; }
     #ui form #username {
-      display: none;
-      width: 280px; }
+      width: 280px;
+      display: none; }
     #ui form #reset {
-      display: none;
-      margin-left: 20px; }
+      margin-left: 20px;
+      display: none; }
   #ui #upboats {
     display: inline;
     float: left;

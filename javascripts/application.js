@@ -2,10 +2,10 @@ $(function (){
 
 //  Config
 
-var server = "www.middlemachine.com/BTW"
+var server = (window.SERVER_URI ? window.SERVER_URI : "www.middlemachine.com/BTW")
 //var path = "/BTW/relevant/"
 //var server = "193.9.21.195:8999"
-var username = $("#username").val()
+var username = (window.USERNAME ? window.USERNAME : $("#username").val())
 
 var columns = 4
 var rows = 5

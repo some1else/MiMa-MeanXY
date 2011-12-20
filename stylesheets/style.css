@@ -87,7 +87,8 @@ h1 {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 364px; }
+    width: 340px;
+    display: none; }
   #ui form {
     display: inline;
     float: left;
@@ -95,10 +96,13 @@ h1 {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 364px; }
+    width: 340px;
+    display: none; }
     #ui form #username {
-      width: 196px; }
+      display: none;
+      width: 280px; }
     #ui form #reset {
+      display: none;
       margin-left: 20px; }
   #ui #upboats {
     display: inline;
@@ -107,8 +111,9 @@ h1 {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 172px;
-    text-align: right; }
+    width: 220px;
+    text-align: right;
+    display: none; }
     #ui #upboats a {
       text-decoration: none;
       font-weight: bold;
@@ -120,12 +125,12 @@ h1 {
 #tabs {
   display: inline;
   float: left;
-  width: 576px;
+  width: 720px;
   display: inline-block;
   display: block;
   margin-top: 0;
   margin-bottom: 0;
-  padding-left: 192px;
+  padding-left: 240px;
   display: none; }
   #tabs:after {
     clear: both;
@@ -145,9 +150,9 @@ h1 {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 172px;
-    height: 76px;
-    line-height: 76px;
+    width: 220px;
+    height: 100px;
+    line-height: 100px;
     background: #666666;
     background: -moz-linear-gradient(top, #222222 0%, #666666 50%, #333333 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #222222), color-stop(50%, #666666), color-stop(100%, #333333));
@@ -194,15 +199,15 @@ h1 {
 
 #tiles {
   position: relative;
-  margin-top: 10px;
   display: inline;
   float: left;
-  width: 768px;
+  width: 960px;
   display: inline-block;
   display: block;
   margin-top: 0;
   margin-bottom: 0;
-  height: 1120px; }
+  margin-top: 10px;
+  height: 1200px; }
   #tiles:after {
     clear: both;
     content: " ";
@@ -217,7 +222,7 @@ h1 {
   #tiles .tile, #tiles .query {
     display: inline;
     float: left;
-    width: 192px;
+    width: 240px;
     display: inline-block;
     display: block;
     margin-top: 0;
@@ -242,21 +247,21 @@ h1 {
       margin-right: 10px;
       margin-top: 10px;
       margin-bottom: 10px;
-      width: 172px;
-      border-radius: 5;
-      -webkit-border-radius: 5;
-      -moz-border-radius: 5;
-      -o-border-radius: 5;
+      width: 220px;
+      border-radius: 12;
+      -webkit-border-radius: 12;
+      -moz-border-radius: 12;
+      -o-border-radius: 12;
       box-shadow: inset 0px 1px 60px rgba(0, 0, 0, 0.28);
       -webkit-box-shadow: inset 0px 1px 60px rgba(0, 0, 0, 0.28);
       -moz-box-shadow: inset 0px 1px 60px rgba(0, 0, 0, 0.28);
       -o-box-shadow: inset 0px 1px 60px rgba(0, 0, 0, 0.28);
       color: white;
       background: #cccccc;
-      border: 2px solid #cccccc;
-      width: 168px;
-      height: 168px;
-      line-height: 168px;
+      border: 4px solid #cccccc;
+      width: 212px;
+      height: 212px;
+      line-height: 212px;
       font-weight: bold;
       text-align: center;
       text-decoration: none;
@@ -264,10 +269,10 @@ h1 {
     #tiles .tile em, #tiles .query em {
       position: absolute;
       display: block;
-      top: 0;
-      right: 4px;
+      top: 2px;
+      right: 7px;
       line-height: 20px;
-      opacity: 0.5;
+      opacity: 1;
       color: white; }
     #tiles .tile span, #tiles .query span {
       text-shadow: -0.8px -1px 1px rgba(0, 0, 0, 0.66), 0.8px 1px 0 rgba(255, 255, 255, 0.2);
@@ -281,17 +286,14 @@ h1 {
     left: 0px; }
   #tiles .tile_x_1 {
     position: absolute;
-    left: 192px; }
+    left: 240px; }
   #tiles .tile_x_2 {
     position: absolute;
-    left: 384px; }
+    left: 480px; }
   #tiles .tile_x_3 {
     position: absolute;
-    left: 576px; }
+    left: 720px; }
   #tiles .tile_x_4 {
-    position: absolute;
-    left: 768px; }
-  #tiles .tile_x_5 {
     position: absolute;
     left: 960px; }
   #tiles .tile_y_0 {
@@ -299,17 +301,14 @@ h1 {
     top: 0px; }
   #tiles .tile_y_1 {
     position: absolute;
-    top: 192px; }
+    top: 240px; }
   #tiles .tile_y_2 {
     position: absolute;
-    top: 384px; }
+    top: 480px; }
   #tiles .tile_y_3 {
     position: absolute;
-    top: 576px; }
+    top: 720px; }
   #tiles .tile_y_4 {
-    position: absolute;
-    top: 768px; }
-  #tiles .tile_y_5 {
     position: absolute;
     top: 960px; }
   #tiles .query_time a {
@@ -322,7 +321,7 @@ h1 {
       -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 60, 110, 0.33);
       -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 60, 110, 0.33);
       font-size: 42px;
-      line-height: 164px; }
+      line-height: 212px; }
   #tiles .tile_time a {
     background: #fe3c6e;
     border-color: #fe3c6e; }
@@ -354,7 +353,7 @@ h1 {
       -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(203, 203, 0, 0.33);
       -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(203, 203, 0, 0.33);
       font-size: 42px;
-      line-height: 164px; }
+      line-height: 212px; }
   #tiles .tile_person a, #tiles .tile_delegate_in a, #tiles .tile_delegate_out a {
     background: #cbcb00;
     border-color: #cbcb00; }
@@ -386,7 +385,7 @@ h1 {
       -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 102, 51, 0.33);
       -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 102, 51, 0.33);
       font-size: 42px;
-      line-height: 164px; }
+      line-height: 212px; }
   #tiles .tile_place a {
     background: #fe6633;
     border-color: #fe6633; }
@@ -418,7 +417,7 @@ h1 {
       -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(41, 171, 226, 0.33);
       -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(41, 171, 226, 0.33);
       font-size: 42px;
-      line-height: 164px; }
+      line-height: 212px; }
   #tiles .tile_tag a {
     background: #29abe2;
     border-color: #29abe2; }
@@ -445,12 +444,12 @@ h1 {
     border-color: #333333; }
     #tiles .query_knot a span {
       font-size: 42px;
-      line-height: 164px; }
+      line-height: 212px; }
 
 #entries {
   display: inline;
   float: left;
-  width: 192px;
+  width: 240px;
   display: inline-block;
   display: block;
   margin-top: 0;
@@ -473,7 +472,7 @@ h1 {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 172px;
+    width: 220px;
     background: #333333;
     border-radius: 5px;
     -webkit-border-radius: 5px;

@@ -16,10 +16,10 @@ var knot = {'type': 'knot query', label: "§"}
 
 var demo_data = {
   "entities": [
-            {'type': "TAG", label: "awesome", w: 1, icon: "0"},
-            {'type': "PLACE", label: "home", w: 3, icon: "0"},
-            {'type': "TIME", label: "now", w: 5, icon: "0"},
-            {'type': "TIME", label: "today", w: 3, icon: "0"}
+            {'type': "TAG",			label: "awesome", w: 1, icon: "0"},
+            {'type': "PLACE",		label: "home", w: 3, icon: "0"},
+            {'type': "TIME",		label: "now", w: 5, icon: "0"},
+            {'type': "TIME",		label: "today", w: 3, icon: "0"}
       ],
   "meta":"demo data"
 }
@@ -127,7 +127,7 @@ var TileCollection = Backbone.Collection.extend({
 })
 
 // Tile Views
-
+//  Abstract Tile
 var TileView = Backbone.View.extend({
   events: {
     "click a": "query" 
@@ -138,8 +138,17 @@ var TileView = Backbone.View.extend({
   }
 })
 
+
+// Labels generated from responses
+//  TILE PERSON
+//  TILE PLACE
+//  TILE TAG
+//  TILE TIME
 var TileLabelView = TileView.extend({
-  template: _.template("<li class='tile tile_x_<%= x %> tile_y_<%= y %> tile_<%= kind %> tile_<%= kind %>_<%= shade %>'><a href='#'><span><%= content %></span><em><%= Math.round(weight*10)/10 %></em></a></li>"),
+  template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
+												"tile_<%= kind %> tile_<%= kind %>_<%= shade %>'>" +
+												"<a href='#'><span><%= content %>" +
+												"</span><em><%= Math.round(weight*10)/10 %></em></a></li>"),
   query: function (e) {
     doQuery(this.model)
     e.preventDefault()
@@ -150,8 +159,15 @@ var TileLabelView = TileView.extend({
   }
 })
 
+// Static Labels for general queries
+//  QUERY Person
+//  QUERY PLACE
+//  QUERY TAG
+//  QUERY TIME
 var TileQueryView = TileView.extend({
-  template: _.template("<li class='tile tile_x_<%= x %> tile_y_<%= y %> query_<%= kind %>'><a href='#'><span><%= content %></span></a></li>"),
+  template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
+												"query_<%= kind %>'><a href='#'><span>" + 
+												"<%= content %></span></a></li>"),
   query: function (e) {
     if (this.model.get('kind').toUpperCase() === "KNOT") {
       doKnotQuery(Queries.toString())
@@ -159,7 +175,33 @@ var TileQueryView = TileView.extend({
       doTypeQuery(this.model)      
     }
     e.preventDefault()
-  },
+  }
+})
+
+
+// Static Label for Query Knot
+//  QUERY KNOT
+var TileQnotView = TileView.extend({
+  template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
+												"query_<%= kind %>'><a href='#'><span>" +
+												"<%= content %></span></a></li>"),
+  query: function (e) {
+    doKnotQuery(Queries.toString())
+    e.preventDefault()
+  }
+})
+
+// Static Pagination Labels
+//  QUERY Next
+//  QUERY Previous
+var TilePaginationNextView = TileView.extend({
+  template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
+												"next_page'><a href='#'><span>NEXT</span></a></li>"),
+  query: function(e) {
+    if (this.model.get('kind').toUpperCase() === "NEXT") {
+      doQuery(this.model)
+    }
+  }
 })
 
 //  Tiles { TileCollectionView }
@@ -174,7 +216,9 @@ var TileCollectionView = Backbone.View.extend({
     this.grid = []
   },
   addOne: function (tile) {
-    var view = (tile.get("query") === true) ? new TileQueryView({model: tile}) : new TileLabelView({model: tile})
+    var view = (tile.get("query") === true) ? 
+									new TileQueryView({model: tile}) :
+									new TileLabelView({model: tile})
     this.$("#tiles").append(view.render().el)
   },
   addTiles: function () {
@@ -212,7 +256,10 @@ var TileCollectionView = Backbone.View.extend({
     for (var col = 0; col < columns; col++) {
       this.grid[col] = []
       for (var row = 0; row < rows; row++) {
-        if (_.detect(Tiles.models, function(m){ return ((m.get('x') === col) && (m.get('y') === row))})){
+        if (_.detect(Tiles.models,	function(m){
+																			return ((m.get('x') === col) &&
+																							(m.get('y') === row))
+																		})){
           this.grid[col][row] = true
         } else {
           this.grid[col][row] = false          
@@ -244,11 +291,15 @@ var TileCollectionView = Backbone.View.extend({
     var j = 0;
     var segment_passed = 0;
 
-    var all_tiles = _.reject(Tiles.models, function(t) {return ((t.get('query') == true) || t.get('prompt') == true)})
+    var all_tiles = _.reject(Tiles.models,	function(t) {
+																							return ((t.get('query') == true) ||
+																											(t.get('prompt') == true))
+																						})
     var positioned_count = 0
     var bounds = {x: {min: 0, max: columns-1}, y: {min: 0, max: rows-1}}
     
-    for (var k = 0; (k < (columns * 8 * rows * 8)) && (positioned_count < all_tiles.length); ++k) {
+    for (var k = 0; (k < (columns * 8 * rows * 8)) &&
+										(positioned_count < all_tiles.length); ++k) {
         // Kick off
         var p = {x: i + pos.x, y: j + pos.y}
         // Check if within bounds
@@ -266,7 +317,6 @@ var TileCollectionView = Backbone.View.extend({
             positioned_count++
           }
         }
-
 
         // make a step, add 'direction' vector (di, dj) to current position (i, j)
         i += di;
@@ -335,7 +385,7 @@ var QueryCollection = Backbone.Collection.extend({
   model: QueryModel,
   toString: function () {
     var res = ""
-    var models = _(this.models).reject(function(m){return (m.get('query') === true)}) 
+    var models = _(this.models).reject(function (m) {return (m.get('query') === true)}) 
     $.each(models, function (i, m) {
       res += m.toString()
       if (i < models.length - 1) {
@@ -445,7 +495,7 @@ var EntryCollectionView = Backbone.View.extend({
   }
 })
 
-// Boilerplate
+// RESPONSE PARSING
 
 window._relevant_jsonp = function (response) {
   var resp = response.entities.slice(0, columns*rows - 6)
@@ -496,12 +546,13 @@ var jax = function (path, data, silent) {
 
 // Routing
 
-var doQuery = function (query) {
-  if (query) {
-    Queries.add(query)  
+
+var doQuery = function (model) {
+  if (model) {
+    Queries.add(model)  
   }
   var data = {q: Queries.toString()}
-  jax('entries', data)
+  //jax('entries', data)
   data.limit = columns * rows
   jax('relevant', data)
 }
@@ -521,19 +572,31 @@ var downBoats = function (e) {
 }
 $("#upboats a.dec").click(downBoats)
 
+//  Expects caller as the parameter (model)
 var doTypeQuery = function (model) {
+  // add a query to the collection
   Queries.add(model)
+  // prepare request parameters
+  var data = {type: model.get("kind").toUpperCase(), limit: columns * rows}
   var qs = Queries.toString()
-  if (qs.length > 0) {
-    var data = {type: model.get("kind").toUpperCase(), limit: columns * rows, q: qs}    
-  } else {
-    var data = {type: model.get("kind").toUpperCase(), limit: columns * rows}
-  }
+  data.q = (qs.length > 0) ? qs : undefined
   jax('type', data)
 }
 
 var doKnotQuery = function (model) {
   var data = {q: Queries.toString(), knot: "true"}
+  jax('relevant', data)
+}
+
+var page = 0
+
+var doNextQuery = function () {
+  var data = {q: Queries.toString(), pg: page--}
+  jax('relevant', data)
+}
+
+var doPreviousQuery = function () {
+  var data = {q: Queries.toString(), pg: page++}
   jax('relevant', data)
 }
 
@@ -563,8 +626,8 @@ TileList = new TileCollectionView()
 Entries = new EntryCollection()
 EntryList = new EntryCollectionView()
 
-//firstRequest()
 Tiles.reset(static_launchpad.entities)
+firstRequest()
 //Tiles.reset(demo_data.entities)
 
 })

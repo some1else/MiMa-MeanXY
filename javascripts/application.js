@@ -34,6 +34,18 @@ var static_launchpad = {
     {'type': 'time query',          label: "~", x: columns-1, y: rows-1}
   ]
 }
+var knot_launchpad = {
+  "entities": [
+    {'type': 'person query',        label: "+", x: 0, y: 0},
+    {'type': 'delegate_in query',   label: "<", x: 0, y: 1},
+    {'type': 'delegate_out query',  label: ">", x: 1, y: 1},
+    {'type': 'tag query',           label: "#", x: columns-1, y: 0},
+    {'type': 'place query',         label: "@", x: 0, y: rows-1},
+    {'type': 'time query',          label: "~", x: 1, y: rows-1},
+		{'type': 'knot query',					label: "§", x: columns -1, y: rows -1}
+  ]
+}
+
 var static_person_type = {
   "entities": [
     {'type': 'person prompt',       label: "+", x: 0, y: 0},
@@ -179,9 +191,9 @@ var TileQueryView = TileView.extend({
 })
 
 
-// Static Label for Query Knot
-//  QUERY KNOT
-var TileQnotView = TileView.extend({
+//	Static Label for Query Knot
+//		QUERY KNOT
+var TileKnotView = TileView.extend({
   template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
 												"query_<%= kind %>'><a href='#'><span>" +
 												"<%= content %></span></a></li>"),
@@ -495,29 +507,8 @@ var EntryCollectionView = Backbone.View.extend({
   }
 })
 
-// RESPONSE PARSING
 
-window._relevant_jsonp = function (response) {
-  var resp = response.entities.slice(0, columns*rows - 6)
-  resp = resp.concat(static_launchpad.entities)
-  Tiles.reset(resp)
-//  Tiles.reset(response.entities)
-  $("#meta").html(response.meta)
-  console.log("_relevant_jsonp")
-}
-window._type_jsonp = function (response) {
-  //var resp = static_person_type.entities
-  var entities = response.entities.slice(0,(columns*rows))//-resp.length)
-  //resp.push(knot)
-  //resp.concat(response.entities)
-  Tiles.reset(entities)
-  console.log("_type_jsonp")
-}
-window._entries_jsonp = function (response) {
-  var resp = response.entries.items
-  Entries.reset(resp)
-  console.log("_entries_jsonp")
-}
+// jax
 
 var jax = function (path, data, silent) {
   data.secret = "admin123"
@@ -527,7 +518,9 @@ var jax = function (path, data, silent) {
     dt = "jsonp"
     if (path === 'relevant') {
       data.json_callback = '_relevant_jsonp'
-    } else if (path === 'entries') {
+    } else if (path === 'knot') {
+			data.json_callback = '_knot_jsonp'
+		} else if (path === 'entries') {
       data.json_callback = '_entries_jsonp'
     } else if (path === 'type') {
       data.json_callback = '_type_jsonp'
@@ -557,20 +550,20 @@ var doQuery = function (model) {
   jax('relevant', data)
 }
 
-var getEntries = function (query) {
-  jax('entries', data)
+window._relevant_jsonp = function (response) {
+	var launchpad, resp
+	if (Queries.toString().length > 0) {
+		launchpad = knot_launchpad.entities
+	} else {
+		launchpad = static_launchpad.entities
+	}
+	//resp = response.entities
+	resp = response.entities.slice(0, columns*rows - launchpad.length)
+  resp = resp.concat(launchpad)
+  Tiles.reset(resp)
+  $("#meta").html(response.meta)
+  console.log("_relevant_jsonp")
 }
-
-var upBoats = function (e) {
-  var data = {q: Queries.toString(), vote:"1"}
-  jax('relevant', data)
-}
-$("#upboats a.inc").click(upBoats)
-var downBoats = function (e) {
-  var data = {q: Queries.toString(), vote:"-1"}
-  jax('relevant', data)
-}
-$("#upboats a.dec").click(downBoats)
 
 //  Expects caller as the parameter (model)
 var doTypeQuery = function (model) {
@@ -583,26 +576,54 @@ var doTypeQuery = function (model) {
   jax('type', data)
 }
 
+window._type_jsonp = function (response) {
+  //var resp = static_person_type.entities
+  var entities = response.entities.slice(0,(columns*rows))//-resp.length)
+  //resp.push(knot)
+  //resp.concat(response.entities)
+  Tiles.reset(entities)
+  console.log("_type_jsonp")
+}
+
 var doKnotQuery = function (model) {
   var data = {q: Queries.toString(), knot: "true"}
-  jax('relevant', data)
+  jax('knot', data)
 }
 
-var page = 0
-
-var doNextQuery = function () {
-  var data = {q: Queries.toString(), pg: page--}
-  jax('relevant', data)
+window._knot_jsonp = function (response) {
+	var resp = response.entities.slice(0, columns * rows - 6)
+	resp = resp.concat(static_launchpad.entities)
+	Queries.reset()
+	Tiles.reset(resp)
+	console.log("_knot_jsonp")
 }
 
-var doPreviousQuery = function () {
-  var data = {q: Queries.toString(), pg: page++}
-  jax('relevant', data)
-}
+// var getEntries = function (query) {
+//   jax('entries', data)
+// }
+// 
+// var upBoats = function (e) {
+//   var data = {q: Queries.toString(), vote:"1"}
+//   jax('relevant', data)
+// }
+// $("#upboats a.inc").click(upBoats)
+// 
+// var downBoats = function (e) {
+//   var data = {q: Queries.toString(), vote:"-1"}
+//   jax('relevant', data)
+// }
+// $("#upboats a.dec").click(downBoats)
+
+// window._entries_jsonp = function (response) {
+//   var resp = response.entries.items
+//   Entries.reset(resp)
+//   console.log("_entries_jsonp")
+// }
 
 var firstRequest = function () {
-  Queries.reset()  
-  jax('relevant', {})
+  //Queries.reset([])
+	doQuery()
+  //jax('relevant', {})
 }
 
 var resetSession = function () {

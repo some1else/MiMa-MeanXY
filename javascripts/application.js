@@ -6,7 +6,7 @@ var server = (window.SERVER_URI ? window.SERVER_URI : "www.middlemachine.com/BTW
 //var path = "/BTW/relevant/"
 //var server = "193.9.21.195:8999"
 var username = (window.USERNAME ? window.USERNAME : $("#username").val())
-
+ 
 var columns = 4
 var rows = 5
 
@@ -142,7 +142,7 @@ var TileCollection = Backbone.Collection.extend({
 //  Abstract Tile
 var TileView = Backbone.View.extend({
   events: {
-    "click a": "query" 
+    "click a": "query"
   },
   render: function () {
     $(this.el).html(this.template(this.model.attributes))
@@ -160,7 +160,7 @@ var TileLabelView = TileView.extend({
   template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
 												"tile_<%= kind %> tile_<%= kind %>_<%= shade %>'>" +
 												"<a href='#'><span><%= content %>" +
-												"</span><em><%= Math.round(weight*10)/10 %></em></a></li>"),
+												"</span><em><%= Math.round(weight * 10) / 10 %></em></a></li>"),
   query: function (e) {
     doQuery(this.model)
     e.preventDefault()
@@ -203,20 +203,20 @@ var TileKnotView = TileView.extend({
   }
 })
 
-// Static Pagination Labels
-//  QUERY Next
-//  QUERY Previous
-var TilePaginationNextView = TileView.extend({
-  template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
-												"next_page'><a href='#'><span>NEXT</span></a></li>"),
-  query: function(e) {
-    if (this.model.get('kind').toUpperCase() === "NEXT") {
-      doQuery(this.model)
-    }
-  }
-})
+//	Static Pagination Labels
+//		QUERY Next
+//		QUERY Previous
+// var TilePaginationNextView = TileView.extend({
+//   template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
+// 												"next_page'><a href='#'><span>NEXT</span></a></li>"),
+//   query: function(e) {
+//     if (this.model.get('kind').toUpperCase() === "NEXT") {
+//       doQuery(this.model)
+//     }
+//   }
+// })
 
-//  Tiles { TileCollectionView }
+//	Tiles { TileCollectionView }
 
 var TileCollectionView = Backbone.View.extend({
   el: "#app",
@@ -237,11 +237,11 @@ var TileCollectionView = Backbone.View.extend({
     Tiles.each(this.addOne)
   },
   applyShade: function () {
-    //Tiles.sort('weight')
-    // defaults
+    //	Tiles.sort('weight')
+    //	defaults
     var max = 0
     var min = 9007199254740992
-    // get minmax
+    //	get minmax
     Tiles.each(function (tile) {
       var tw = tile.get('weight')
       if (_.isString(tw)) {
@@ -287,7 +287,7 @@ var TileCollectionView = Backbone.View.extend({
     // ]
   },
   spiralWalk: function (pos) {
-    // DISCRETE 2D SPIRAL via StackOverflow        
+    //	DISCRETE 2D SPIRAL  
     if ((pos.x < (columns-1)/2)) {
       var di = 1
     } else {
@@ -295,10 +295,10 @@ var TileCollectionView = Backbone.View.extend({
     }    
     var dj = 0;
     
-    // length of current segment
+    //	length of current segment
     var segment_length = 1;
 
-    // current position (i, j) and how much of current segment we passed
+    //	current position (i, j) and how much of current segment we passed
     var i = 0;
     var j = 0;
     var segment_passed = 0;
@@ -312,17 +312,17 @@ var TileCollectionView = Backbone.View.extend({
     
     for (var k = 0; (k < (columns * 8 * rows * 8)) &&
 										(positioned_count < all_tiles.length); ++k) {
-        // Kick off
+        //	Kick off
         var p = {x: i + pos.x, y: j + pos.y}
-        // Check if within bounds
+        //	Check if within bounds
         if (((p.x >= bounds.x.min) &&
             (p.x <= bounds.x.max) &&
             (p.y >= bounds.y.min) &&
             (p.y <= bounds.y.max))) {
-          // Check if occupied
+          //	Check if occupied
           if (this.grid[p.x][p.y] === false) {
             
-            // Take the spot
+            //	Take the spot
             all_tiles[positioned_count].set({x: p.x, y: p.y}, {silent: true})
             this.grid[p.x][p.y] = true
             
@@ -330,15 +330,15 @@ var TileCollectionView = Backbone.View.extend({
           }
         }
 
-        // make a step, add 'direction' vector (di, dj) to current position (i, j)
+        //	make a step, add 'direction' vector (di, dj) to current position (i, j)
         i += di;
         j += dj;
         ++segment_passed;
                 
         if (segment_passed === segment_length) {
-            // done with current segment
+            //	done with current segment
             segment_passed = 0;
-            // 'rotate' directions            
+            //	'rotate' directions            
             if (((pos.x < (columns-1)/2) && (pos.y > (rows-1)/2)) ||
                 ((pos.x > (columns-1)/2) && (pos.y < (rows-1)/2))) {
               var buffer = dj;
@@ -349,14 +349,15 @@ var TileCollectionView = Backbone.View.extend({
               di = -dj;
               dj = buffer;
             }
-            // increase segment length if necessary
+            //	increase segment length if necessary
             if (dj === 0) {
                 ++segment_length;
             }
         }
     }
-  },
-  applyXY: function () {
+  },	
+  /*
+	applyXY: function () {
     Tiles.each(function (tile, index) {
       var x = (index % columns)
       var y = Math.floor(index / columns)
@@ -365,6 +366,7 @@ var TileCollectionView = Backbone.View.extend({
       }
     })
   },
+	*/
   addAll: function () {
     this.drawGrid()
     //this.applyXY()
@@ -372,11 +374,8 @@ var TileCollectionView = Backbone.View.extend({
     if (Queries.xyPos().x !== false) {
       this.spiralWalk(Queries.xyPos())
     }
-    //this.applyLayout(Queries.xyPos())
     this.applyShade()
-    //Tiles.each(function (m){m.change()})
     this.addTiles()
-
   },
   reset: function () {
     this.$("#tiles").empty()
@@ -539,7 +538,6 @@ var jax = function (path, data, silent) {
 
 // Routing
 
-
 var doQuery = function (model) {
   if (model) {
     Queries.add(model)  
@@ -632,6 +630,7 @@ var resetSession = function () {
   jax('relevant', data)
   Tiles.reset(static_launchpad.entities)
 }
+
 $("#reset").click(function (e){
   resetSession()
 })
@@ -647,8 +646,9 @@ TileList = new TileCollectionView()
 Entries = new EntryCollection()
 EntryList = new EntryCollectionView()
 
-Tiles.reset(static_launchpad.entities)
+//Tiles.reset(static_launchpad.entities)
 firstRequest()
+
 //Tiles.reset(demo_data.entities)
 
 })

@@ -181,11 +181,11 @@ var TileQueryView = TileView.extend({
 												"query_<%= kind %>'><a href='#'><span>" + 
 												"<%= content %></span></a></li>"),
   query: function (e) {
-    if (this.model.get('kind').toUpperCase() === "KNOT") {
-      doKnotQuery(Queries.toString())
-    } else {
+    //if (this.model.get('kind').toUpperCase() === "KNOT") {
+    //  doKnotQuery(Queries.toString())
+    //} else {
       doTypeQuery(this.model)      
-    }
+    //}
     e.preventDefault()
   }
 })
@@ -198,7 +198,7 @@ var TileKnotView = TileView.extend({
 												"query_<%= kind %>'><a href='#'><span>" +
 												"<%= content %></span></a></li>"),
   query: function (e) {
-    doKnotQuery(Queries.toString())
+    doKnotQuery()
     e.preventDefault()
   }
 })
@@ -228,9 +228,16 @@ var TileCollectionView = Backbone.View.extend({
     this.grid = []
   },
   addOne: function (tile) {
-    var view = (tile.get("query") === true) ? 
-									new TileQueryView({model: tile}) :
-									new TileLabelView({model: tile})
+		var view
+		if (tile.get("query") === true) {
+			if (tile.get("kind").toUpperCase() === "KNOT") {
+				view = new TileKnotView({model: tile})
+			} else {
+				view = new TileQueryView({model: tile})
+			}
+		} else {
+			view = new TileLabelView({model: tile})
+		}
     this.$("#tiles").append(view.render().el)
   },
   addTiles: function () {
@@ -394,17 +401,23 @@ var QueryModel = Backbone.Model.extend({
 
 var QueryCollection = Backbone.Collection.extend({
   model: QueryModel,
-  toString: function () {
+  toString: function (delimiter) {
     var res = ""
     var models = _(this.models).reject(function (m) {return (m.get('query') === true)}) 
     $.each(models, function (i, m) {
       res += m.toString()
       if (i < models.length - 1) {
-        res += ","
+        res += delimiter
       }
     })
     return res
   },
+	asQueryParam: function() {
+		return this.toString(",")
+	},
+	asFuzztleText: function() {
+		return this.toString(" ")		
+	},
   xyPos: function () {
     var result = {x: 0, y: 0}
     if (!_.isEmpty(this.models)) {
@@ -518,6 +531,7 @@ var jax = function (path, data, silent) {
     if (path === 'relevant') {
       data.json_callback = '_relevant_jsonp'
     } else if (path === 'knot') {
+			path = 'entry'
 			data.json_callback = '_knot_jsonp'
 		} else if (path === 'entries') {
       data.json_callback = '_entries_jsonp'
@@ -542,7 +556,7 @@ var doQuery = function (model) {
   if (model) {
     Queries.add(model)  
   }
-  var data = {q: Queries.toString()}
+  var data = {q: Queries.asQueryParam()}
   //jax('entries', data)
   data.limit = columns * rows
   jax('relevant', data)
@@ -550,7 +564,7 @@ var doQuery = function (model) {
 
 window._relevant_jsonp = function (response) {
 	var launchpad, resp
-	if (Queries.toString().length > 0) {
+	if (Queries.asQueryParam().length > 0) {
 		launchpad = knot_launchpad.entities
 	} else {
 		launchpad = static_launchpad.entities
@@ -569,30 +583,29 @@ var doTypeQuery = function (model) {
   Queries.add(model)
   // prepare request parameters
   var data = {type: model.get("kind").toUpperCase(), limit: columns * rows}
-  var qs = Queries.toString()
+  var qs = Queries.asQueryParam()
   data.q = (qs.length > 0) ? qs : undefined
   jax('type', data)
 }
 
 window._type_jsonp = function (response) {
-  //var resp = static_person_type.entities
   var entities = response.entities.slice(0,(columns*rows))//-resp.length)
-  //resp.push(knot)
-  //resp.concat(response.entities)
   Tiles.reset(entities)
   console.log("_type_jsonp")
 }
 
-var doKnotQuery = function (model) {
-  var data = {q: Queries.toString(), knot: "true"}
+var doKnotQuery = function () {
+  var data = {add: Queries.asFuzztleText()}
   jax('knot', data)
 }
 
 window._knot_jsonp = function (response) {
-	var resp = response.entities.slice(0, columns * rows - 6)
-	resp = resp.concat(static_launchpad.entities)
+	//var resp = response.entities.slice(0, columns * rows - 6)
+	//resp = resp.concat(static_launchpad.entities)
 	Queries.reset()
-	Tiles.reset(resp)
+	//Tiles.reset(resp)
+	//doQuery(Queries.asQueryParam())
+	firstRequest()
 	console.log("_knot_jsonp")
 }
 

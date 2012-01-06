@@ -407,7 +407,7 @@ var QueryCollection = Backbone.Collection.extend({
     return res
   },
   xyPos: function () {
-    var result = {x: false, y: false}
+    var result = {x: 0, y: 0}
     if (!_.isEmpty(this.models)) {
       var m = this.models[this.models.length - 1]
       result = {x: m.get('x'), y: m.get('y')}

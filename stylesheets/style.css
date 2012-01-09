@@ -42,11 +42,20 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+.small_font, #ui #meta {
+  font-size: 12px; }
+
+.medium_font, #tiles .tile span, #tiles .query span {
+  font-size: 18px; }
+
+.big_font, #tiles .query_time a span, #tiles .query_person a span, #tiles .query_delegate_in a span, #tiles .query_delegate_out a span, #tiles .query_place a span, #tiles .query_tag a span, #tiles .query_knot a span {
+  font-size: 30px; }
+
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 0 !important;
-  background: black;
-  color: white; }
+  background: #edf7fa;
+  color: #31373f; }
 
 h1 {
   display: none; }
@@ -54,12 +63,12 @@ h1 {
 #app {
   margin-left: auto;
   margin-right: auto;
-  width: 960px; }
+  width: 840px; }
 
 #ui {
   display: inline;
   float: left;
-  width: 960px;
+  width: 840px;
   display: inline-block;
   display: block;
   margin-top: 0;
@@ -79,7 +88,6 @@ h1 {
     color: #999999;
     font-weight: bold;
     font-style: italic;
-    font-size: 16px;
     z-index: 999;
     display: inline;
     float: left;
@@ -87,7 +95,7 @@ h1 {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 340px;
+    width: 232px;
     display: none; }
   #ui form {
     display: inline;
@@ -96,10 +104,10 @@ h1 {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 340px;
+    width: 232px;
     display: none; }
     #ui form #username {
-      width: 280px;
+      width: 448px;
       display: none; }
     #ui form #reset {
       margin-left: 20px;
@@ -111,7 +119,7 @@ h1 {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 220px;
+    width: 316px;
     text-align: right;
     display: none; }
     #ui #upboats a {
@@ -125,12 +133,11 @@ h1 {
 #tabs {
   display: inline;
   float: left;
-  width: 720px;
+  width: 840px;
   display: inline-block;
   display: block;
   margin-top: 0;
   margin-bottom: 0;
-  padding-left: 240px;
   display: none; }
   #tabs:after {
     clear: both;
@@ -150,9 +157,9 @@ h1 {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 220px;
-    height: 100px;
-    line-height: 100px;
+    width: 148px;
+    height: 148px;
+    line-height: 148px;
     background: #666666;
     background: -moz-linear-gradient(top, #222222 0%, #666666 50%, #333333 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #222222), color-stop(50%, #666666), color-stop(100%, #333333));
@@ -161,7 +168,7 @@ h1 {
     background: -ms-linear-gradient(top, #222222 0%, #666666 50%, #333333 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#222222", endColorstr="#333333",GradientType=0 );
     background: linear-gradient(top, #222222 0%, #666666 50%, #333333 100%);
-    color: white;
+    color: #31373f;
     text-align: center;
     border-radius: 5;
     -webkit-border-radius: 5;
@@ -175,7 +182,7 @@ h1 {
   margin-right: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
-  width: 940px;
+  width: 820px;
   padding-top: 20px;
   text-align: center;
   line-height: 16px; }
@@ -201,13 +208,13 @@ h1 {
   position: relative;
   display: inline;
   float: left;
-  width: 960px;
+  width: 840px;
   display: inline-block;
   display: block;
   margin-top: 0;
   margin-bottom: 0;
   margin-top: 10px;
-  height: 1200px; }
+  height: 490px; }
   #tiles:after {
     clear: both;
     content: " ";
@@ -222,7 +229,7 @@ h1 {
   #tiles .tile, #tiles .query {
     display: inline;
     float: left;
-    width: 240px;
+    width: 168px;
     display: inline-block;
     display: block;
     margin-top: 0;
@@ -247,7 +254,7 @@ h1 {
       margin-right: 10px;
       margin-top: 10px;
       margin-bottom: 10px;
-      width: 220px;
+      width: 148px;
       border-radius: 12;
       -webkit-border-radius: 12;
       -moz-border-radius: 12;
@@ -256,12 +263,12 @@ h1 {
       -webkit-box-shadow: inset 0px 1px 60px rgba(0, 0, 0, 0.28);
       -moz-box-shadow: inset 0px 1px 60px rgba(0, 0, 0, 0.28);
       -o-box-shadow: inset 0px 1px 60px rgba(0, 0, 0, 0.28);
-      color: white;
+      color: #31373f;
       background: #cccccc;
       border: 4px solid #cccccc;
-      width: 212px;
-      height: 212px;
-      line-height: 212px;
+      width: 140px;
+      height: 140px;
+      line-height: 140px;
       font-weight: bold;
       text-align: center;
       text-decoration: none;
@@ -280,48 +287,47 @@ h1 {
       -moz-text-shadow: -0.8px -1px 1px rgba(0, 0, 0, 0.66), 0.8px 1px 0 rgba(255, 255, 255, 0.2);
       -o-text-shadow: -0.8px -1px 1px rgba(0, 0, 0, 0.66), 0.8px 1px 0 rgba(255, 255, 255, 0.2);
       font-weight: bold;
-      font-size: 24px; }
+      word-wrap: break-word; }
   #tiles .tile_x_0 {
     position: absolute;
     left: 0px; }
   #tiles .tile_x_1 {
     position: absolute;
-    left: 240px; }
+    left: 168px; }
   #tiles .tile_x_2 {
     position: absolute;
-    left: 480px; }
+    left: 336px; }
   #tiles .tile_x_3 {
     position: absolute;
-    left: 720px; }
+    left: 504px; }
   #tiles .tile_x_4 {
     position: absolute;
-    left: 960px; }
+    left: 672px; }
+  #tiles .tile_x_5 {
+    position: absolute;
+    left: 840px; }
   #tiles .tile_y_0 {
     position: absolute;
     top: 0px; }
   #tiles .tile_y_1 {
     position: absolute;
-    top: 240px; }
+    top: 168px; }
   #tiles .tile_y_2 {
     position: absolute;
-    top: 480px; }
+    top: 336px; }
   #tiles .tile_y_3 {
     position: absolute;
-    top: 720px; }
-  #tiles .tile_y_4 {
-    position: absolute;
-    top: 960px; }
+    top: 504px; }
   #tiles .query_time a {
-    background: black;
+    background: #edf7fa;
     border-color: #fe3c6e;
-    color: white; }
+    color: #31373f; }
     #tiles .query_time a span {
       text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 60, 110, 0.33);
       -webkit-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 60, 110, 0.33);
       -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 60, 110, 0.33);
       -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 60, 110, 0.33);
-      font-size: 42px;
-      line-height: 212px; }
+      line-height: 140px; }
   #tiles .tile_time a {
     background: #fe3c6e;
     border-color: #fe3c6e; }
@@ -344,16 +350,15 @@ h1 {
     background: #b26478;
     border-color: #b26478; }
   #tiles .query_person a, #tiles .query_delegate_in a, #tiles .query_delegate_out a {
-    background: black;
+    background: #edf7fa;
     border-color: #cbcb00;
-    color: white; }
+    color: #31373f; }
     #tiles .query_person a span, #tiles .query_delegate_in a span, #tiles .query_delegate_out a span {
       text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(203, 203, 0, 0.33);
       -webkit-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(203, 203, 0, 0.33);
       -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(203, 203, 0, 0.33);
       -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(203, 203, 0, 0.33);
-      font-size: 42px;
-      line-height: 212px; }
+      line-height: 140px; }
   #tiles .tile_person a, #tiles .tile_delegate_in a, #tiles .tile_delegate_out a {
     background: #cbcb00;
     border-color: #cbcb00; }
@@ -376,16 +381,15 @@ h1 {
     background: #9e9e4c;
     border-color: #9e9e4c; }
   #tiles .query_place a {
-    background: black;
+    background: #edf7fa;
     border-color: #fe6633;
-    color: white; }
+    color: #31373f; }
     #tiles .query_place a span {
       text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 102, 51, 0.33);
       -webkit-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 102, 51, 0.33);
       -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 102, 51, 0.33);
       -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(254, 102, 51, 0.33);
-      font-size: 42px;
-      line-height: 212px; }
+      line-height: 140px; }
   #tiles .tile_place a {
     background: #fe6633;
     border-color: #fe6633; }
@@ -408,16 +412,15 @@ h1 {
     background: #b27561;
     border-color: #b27561; }
   #tiles .query_tag a {
-    background: black;
+    background: #edf7fa;
     border-color: #29abe2;
-    color: white; }
+    color: #31373f; }
     #tiles .query_tag a span {
       text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(41, 171, 226, 0.33);
       -webkit-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(41, 171, 226, 0.33);
       -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(41, 171, 226, 0.33);
       -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(41, 171, 226, 0.33);
-      font-size: 42px;
-      line-height: 212px; }
+      line-height: 140px; }
   #tiles .tile_tag a {
     background: #29abe2;
     border-color: #29abe2; }
@@ -440,16 +443,22 @@ h1 {
     background: #5d91a7;
     border-color: #5d91a7; }
   #tiles .query_knot a {
-    background: #333333;
-    border-color: #333333; }
+    background: #edf7fa;
+    border-color: #333333;
+    color: #31373f; }
     #tiles .query_knot a span {
-      font-size: 42px;
-      line-height: 212px; }
+      text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(51, 51, 51, 0.33);
+      -webkit-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(51, 51, 51, 0.33);
+      -moz-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(51, 51, 51, 0.33);
+      -o-text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.4), 0px 1px 0px rgba(51, 51, 51, 0.33);
+      line-height: 140px; }
+    #tiles .query_knot a span {
+      line-height: 148px; }
 
 #entries {
   display: inline;
   float: left;
-  width: 240px;
+  width: 336px;
   display: inline-block;
   display: block;
   margin-top: 0;
@@ -472,7 +481,7 @@ h1 {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 220px;
+    width: 316px;
     background: #333333;
     border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -484,3 +493,12 @@ h1 {
       #entries .entry h1 a, #entries .entry p a {
         text-decoration: none;
         color: #29abe2; }
+
+#gridder li {
+  display: inline;
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 64px; }

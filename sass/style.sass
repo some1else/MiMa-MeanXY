@@ -1,6 +1,14 @@
-$width: 960
-$columns: 16
+$width: 840
+$columns: 10
+$rows: 6
 $gutter: 20
+
+@import ../sass_lib/reset
+@import ../sass_lib/grid_system
+
+@import helpers
+
+$tile_width: 2 * $column + 1 * $gutter
 
 $tile_color: #CCC
 
@@ -11,6 +19,10 @@ $tile_color: #CCC
 
 $foreground_color: white
 $background_color: black
+$kolpa_color: #EDF7FA
+$background_color: $kolpa_color
+$foreground_color: black
+$foreground_color: #31373F
 
 $person_color: #CBCB00
 $place_color: #FE6633
@@ -18,14 +30,25 @@ $time_color: #FE3C6E
 $tag_color: #29ABE2
 $knot_color: #333
 
+$base_size: 6
+
+.small_font
+  font-size: 2 * $base_size + $unit
+
+.medium_font
+  font-size: 3 * $base_size + $unit
+
+.big_font
+  font-size: 5 * $base_size + $unit
+
 =full_tile($c)
   background: $background_color
   border-color: $c
   color: $foreground_color
   span
     +text-shadows(0px -1px 1px rgba(0,0,0,.4), 0px 1px 0px rgba($c,.33))
-    font-size: 42px
-    line-height: $column * 4 + $gutter * 3 - 8 + $unit
+    @extend .big_font
+    line-height: $tile_width - 8 + $unit
     // text-shadow: none
     // -webkit-text-shadow: none
     // -moz-text-shadow: none
@@ -36,15 +59,10 @@ $knot_color: #333
   background: $c
   border-color: $c
 
-@import ../sass_lib/reset
-@import ../sass_lib/grid_system
-
-@import helpers
-
 body
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
   margin: 0 !important
-  background: $background_color
+  background: $kolpa_color
   color: $foreground_color
 h1
   display: none
@@ -53,17 +71,17 @@ h1
   +container
   
 #ui
-  +layout(16)
+  +layout(10)
   #meta
     color: #999
     font-weight: bold
     font-style: italic
-    font-size: 16px
+    @extend .small_font
     z-index: 999
-    +column(6)
+    +column(3)
     display: none
   form
-    +column(6)
+    +column(3)
     display: none
     #username
       width: $column * 7 + $unit
@@ -84,21 +102,21 @@ h1
       line-height: $gutter * 1.5 + $unit
 
 #tabs
-  +layout(12)
-  +prepend(4)
+  +layout(10)
+  //+prepend(0)
   display: none
   .tab
-    +column(4)
-    $size_2_c: 2 * $column + 1 * $gutter + $unit
-    height: $size_2_c
-    line-height: $size_2_c
+    +column(2)
+    $adjusted_size: 2 * $column + 1 * $gutter + $unit
+    height: $adjusted_size
+    line-height: $adjusted_size
     +gradient(#222, #666, #333)
     color: $foreground_color
     text-align: center
     +border-radius(5)
 
 #breadcrumbs
-  +column(16)
+  +column(10)
   padding-top: $gutter + $unit
   text-align: center
   line-height: 16px
@@ -119,16 +137,17 @@ h1
 
 #tiles
   position: relative
-  +layout(16)
+  +layout(10)
   margin-top: $gutter/2 + $unit
-
-  height: ($columns - 4) * $column + (($column - 4) * $gutter) + $unit
+  // height: ($columns - 4) * $column + (($column - 4) * $gutter) + $unit
+  height: $rows * $column + $rows * $gutter - $gutter/2 - 4 + $unit
+  
   .tile, .query
-    +layout(4)
+    +layout(2)
     a
       cursor: pointer
       position: relative
-      +column(4)
+      +column(2)
       +border-radius(12)
       +inset-shadow(0px, 1px, 60px, rgba(0,0,0,.28))
 
@@ -136,10 +155,10 @@ h1
       background: $tile_color
       border: 4px solid $tile_color
 
-      $size_4_c: 4 * $column + 3 * $gutter - 8 + $unit
-      width: $size_4_c
-      height: $size_4_c
-      line-height: $size_4_c
+      $adjusted_size: $tile_width - 8 + $unit
+      width: $adjusted_size
+      height: $adjusted_size
+      line-height: $adjusted_size
       
       font-weight: bold
       text-align: center
@@ -159,16 +178,19 @@ h1
     span
       +text-shadows(-0.8px -1px 1px rgba(0,0,0,.66), 0.8px 1px 0 rgba(255,255,255,.2))
       font-weight: bold
-      font-size: 24px
-  @for $x from 0 through $columns/4
+      @extend .medium_font
+      word-wrap: break-word
+      
+  @for $x from 0 through $columns/2
     .tile_x_#{$x}
       position: absolute
-      left: $x * ($column * 4 + $gutter * 4) + $unit
-  @for $y from 0 through $columns/4
+      left: ($x * ($column * 2 + $gutter * 1) + ($x * $gutter)) + $unit
+  @for $y from 0 through $rows/2
     .tile_y_#{$y}
       position: absolute
-      top: ($y * ($column * 4 + $gutter * 4)) + $unit
-  // icon types
+      top: ($y * ($column * 2 + $gutter * 1) + ($y * $gutter)) + $unit
+      
+  //icon types
   .query_time
     a
       // +gradient(darken($time_color, 5%), lighten(desaturate($time_color, 5%), 5%), $time_color)
@@ -229,10 +251,10 @@ h1
 
   .query_knot
     a
-      +void_tile($knot_color) 
+      +full_tile($knot_color) 
       span
-        font-size: 42px
-        line-height: $column * 4 + $gutter * 3 - 8 + $unit
+        @extend .big_font
+        line-height: $tile_width + $unit
 
 #entries
   +layout(4)
@@ -246,3 +268,7 @@ h1
       a
         text-decoration: none
         color: $tag_color
+
+#gridder
+  li
+    +column(1)

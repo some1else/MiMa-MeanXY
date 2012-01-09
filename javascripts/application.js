@@ -7,8 +7,8 @@ var server = (window.SERVER_URI ? window.SERVER_URI : "www.middlemachine.com/BTW
 //var server = "193.9.21.195:8999"
 var username = (window.USERNAME ? window.USERNAME : $("#username").val())
  
-var columns = 4
-var rows = 5
+var columns = 5
+var rows = 3
 
 //  Mocks
 
@@ -24,24 +24,25 @@ var demo_data = {
   "meta":"demo data"
 }
 
-var static_launchpad = {
-  "entities": [
-    {'type': 'person query',        label: "+", x: 0, y: 0},
-    {'type': 'delegate_in query',   label: "<", x: 0, y: 1},
-    {'type': 'delegate_out query',  label: ">", x: 1, y: 1},
-    {'type': 'tag query',           label: "#", x: columns-1, y: 0},
-    {'type': 'place query',         label: "@", x: 0, y: rows-1},
-    {'type': 'time query',          label: "~", x: columns-1, y: rows-1}
-  ]
-}
+// var static_launchpad = {
+//   "entities": [
+//     {'type': 'person query',        label: "+", x: 0, y: 0},
+//     {'type': 'delegate_in query',   label: "<", x: 0, y: 1},
+//     {'type': 'delegate_out query',  label: ">", x: 1, y: 1},
+//     {'type': 'tag query',           label: "#", x: columns-1, y: 0},
+//     {'type': 'place query',         label: "@", x: 0, y: rows-1},
+//     {'type': 'time query',          label: "~", x: columns-1, y: rows-1}
+//   ]
+// }
+
 var knot_launchpad = {
   "entities": [
-    {'type': 'person query',        label: "+", x: 0, y: 0},
-    {'type': 'delegate_in query',   label: "<", x: 0, y: 1},
-    {'type': 'delegate_out query',  label: ">", x: 1, y: 1},
+    {'type': 'person query',        label: "+", x: 0, y: 1},
+    {'type': 'delegate_in query',   label: "<", x: 0, y: 0},
+    {'type': 'delegate_out query',  label: ">", x: 1, y: 0},
     {'type': 'tag query',           label: "#", x: columns-1, y: 0},
-    {'type': 'place query',         label: "@", x: 0, y: rows-1},
-    {'type': 'time query',          label: "~", x: 1, y: rows-1},
+    {'type': 'place query',         label: "@", x: 2, y: rows-1},
+    {'type': 'time query',          label: "~", x: columns -2, y: rows-2},
 		{'type': 'knot query',					label: "§", x: columns -1, y: rows -1}
   ]
 }

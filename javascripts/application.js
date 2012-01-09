@@ -419,7 +419,7 @@ var QueryCollection = Backbone.Collection.extend({
 		return this.toString(" ")		
 	},
   xyPos: function () {
-    var result = {x: 0, y: 0}
+    var result = {x: Math.ceil(columns/2), y: Math.floor(rows/2)}
     if (!_.isEmpty(this.models)) {
       var m = this.models[this.models.length - 1]
       result = {x: m.get('x'), y: m.get('y')}
@@ -547,7 +547,7 @@ var jax = function (path, data, silent) {
     dt = "json"
   }
   
-  var url = "http://"+server+"/"+path+"/"+$("#username").val()
+  var url = "http://"+server+"/"+path+"/"+window.USERNAME
   $.ajax(url, {
     dataType: dt,
     data: data
@@ -597,9 +597,13 @@ var doTypeQuery = function (model) {
 }
 
 window._type_jsonp = function (response) {
-  var entities = response.entities.slice(0,(columns*rows))//-resp.length)
+	var entities
+	 if (response.error.length > 0) {
+		entities = knot_launchpad
+	} else {
+	  entities = response.entities.slice(0,(columns*rows))//-resp.length)		
+	}
   Tiles.reset(entities)
-  console.log("_type_jsonp")
 }
 
 var doKnotQuery = function () {

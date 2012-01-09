@@ -378,7 +378,6 @@ var TileCollectionView = Backbone.View.extend({
   addAll: function () {
     this.drawGrid()
     //this.applyXY()
-    console.log(Queries.xyPos().x, Queries.xyPos().y)
     if (Queries.xyPos().x !== false) {
       this.spiralWalk(Queries.xyPos())
     }
@@ -615,7 +614,6 @@ window._knot_jsonp = function (response) {
 	//Tiles.reset(resp)
 	//doQuery(Queries.asQueryParam())
 	firstRequest()
-	console.log("_knot_jsonp")
 }
 
 // var getEntries = function (query) {
@@ -637,7 +635,6 @@ window._knot_jsonp = function (response) {
 // window._entries_jsonp = function (response) {
 //   var resp = response.entries.items
 //   Entries.reset(resp)
-//   console.log("_entries_jsonp")
 // }
 
 var firstRequest = function () {

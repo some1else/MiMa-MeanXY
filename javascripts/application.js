@@ -524,7 +524,11 @@ var EntryCollectionView = Backbone.View.extend({
 // jax
 
 var jax = function (path, data, silent) {
-  data.secret = "admin123"
+	if (window.TOKEN === undefined) {
+		data.secret = "admin123"
+	} else {
+		data.access_token = window.TOKEN
+	}
   var dt = ""
   
   if (silent != true) {

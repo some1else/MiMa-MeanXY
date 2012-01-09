@@ -5,24 +5,12 @@
   %script{:type => "text/javascript", :src => "javascripts/lib/json2.js"}
   %script{:type => "text/javascript", :src => "javascripts/lib/underscore.js"}
   %script{:type => "text/javascript", :src => "javascripts/lib/backbone.js"}
+  %script{:type => "text/javascript", :src => "javascripts/configuration.js"}
   %script{:type => "text/javascript", :src => "javascripts/application.js"}
 %body
   %h1 MeanXY
   #app
-    #ui
-      #meta
-        &nbsp;
-      %form#user
-        %input#username{:type => "text", :value => "dev@middlemachine.com"}
-        %input#reset{:type => "button", :value => "Reset"}
-      #upboats
-        %a.inc{:href => "#"} +
-        &nbsp;
-        %a.dec{:href => "#"} -
     %ul#tiles
-      &nbsp;
-    /
-      #entries
       &nbsp;
     #breadcrumbs
       &nbsp;

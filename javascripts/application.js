@@ -564,17 +564,21 @@ var doQuery = function (model) {
 
 window._relevant_jsonp = function (response) {
 	var launchpad, resp
-	if (Queries.asQueryParam().length > 0) {
-		launchpad = knot_launchpad.entities
-	} else {
-		launchpad = static_launchpad.entities
-	}
+	// if (Queries.asQueryParam().length > 0) {
+	// 		launchpad = knot_launchpad.entities
+	// 	} else {
+	// 		launchpad = static_launchpad.entities
+	// 	}
+	launchpad = knot_launchpad.entities
 	//resp = response.entities
-	resp = response.entities.slice(0, columns*rows - launchpad.length)
+	if (response.error.length > 0) {
+		resp = []
+	} else {
+		resp = response.entities.slice(0, columns*rows - launchpad.length)
+	}
   resp = resp.concat(launchpad)
   Tiles.reset(resp)
   $("#meta").html(response.meta)
-  console.log("_relevant_jsonp")
 }
 
 //  Expects caller as the parameter (model)

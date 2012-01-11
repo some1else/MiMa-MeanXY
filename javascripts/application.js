@@ -3,8 +3,14 @@ $(function (){
 //  Config
 
 var server = (window.SERVER_URI ? window.SERVER_URI : "www.middlemachine.com/BTW")
-//var path = "/BTW/relevant/"
-//var server = "193.9.21.195:8999"
+if (window.SERVER_URI) {
+	if (window.SERVER_PORT) {
+		server = window.SERVER_URI + ":" + window.SERVER_PORT
+	} else {
+		server = window.SERVER_URI
+	}
+}
+
 var username = (window.USERNAME ? window.USERNAME : $("#username").val())
  
 var columns = 5
@@ -547,7 +553,7 @@ var jax = function (path, data, silent) {
     dt = "json"
   }
   
-  var url = "http://"+server+"/"+path+"/"+window.USERNAME
+  var url = "http://"+server+"/BTW/"+path+"/"+user
   $.ajax(url, {
     dataType: dt,
     data: data

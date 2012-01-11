@@ -115,6 +115,7 @@ var TileCollection = Backbone.Collection.extend({
 })
 
 // Tile Views
+
 //  Abstract Tile
 var TileView = Backbone.View.extend({
   events: {
@@ -125,7 +126,6 @@ var TileView = Backbone.View.extend({
     return this
   }
 })
-
 
 // Labels generated from responses
 //  TILE PERSON
@@ -443,7 +443,10 @@ var EntryCollection = Backbone.Collection.extend({
 })
 
 var EntryView = Backbone.View.extend({
-  template: _.template("<div class='entry'><h1><a href='<%= url %>'><%= text %></a></h1><p><%= description %>(<em><%= prettytime %></em>)</p></div>"),
+  template: _.template( "<div class='entry'>" +
+                        "<h1><a href='<%= url %>'><%= text %></a></h1>" +
+                        "<p><%= description %>(<em><%= prettytime %></em>)</p>" +
+                        "</div>"),
   render: function () {
     $(this.el).html(this.template(this.model.attributes))
     return this
@@ -466,7 +469,7 @@ var EntryCollectionView = Backbone.View.extend({
 })
 
 
-// jax
+// Ajax JSONP API utility function
 
 var jax = function (path, data, silent) {
 	if (window.TOKEN === undefined) {
@@ -534,11 +537,10 @@ var doTypeQuery = function (model) {
   data.q = (qs.length > 0) ? qs : undefined
   jax('type', data)
 }
-
 window._type_jsonp = function (response) {
 	var entities
-	 if (response.error.length > 0) {
-		entities = knot_launchpad
+	 if (response.error) {
+		entities = launchpad
 	} else {
 	  entities = response.entities.slice(0,(columns*rows))//-resp.length)		
 	}

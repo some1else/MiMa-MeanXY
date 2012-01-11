@@ -20,28 +20,7 @@ var rows = 3
 
 var knot = {'type': 'knot query', label: "§"}
 
-var demo_data = {
-  "entities": [
-            {'type': "TAG",			label: "awesome", w: 1, icon: "0"},
-            {'type': "PLACE",		label: "home", w: 3, icon: "0"},
-            {'type': "TIME",		label: "now", w: 5, icon: "0"},
-            {'type': "TIME",		label: "today", w: 3, icon: "0"}
-      ],
-  "meta":"demo data"
-}
-
-// var static_launchpad = {
-//   "entities": [
-//     {'type': 'person query',        label: "+", x: 0, y: 0},
-//     {'type': 'delegate_in query',   label: "<", x: 0, y: 1},
-//     {'type': 'delegate_out query',  label: ">", x: 1, y: 1},
-//     {'type': 'tag query',           label: "#", x: columns-1, y: 0},
-//     {'type': 'place query',         label: "@", x: 0, y: rows-1},
-//     {'type': 'time query',          label: "~", x: columns-1, y: rows-1}
-//   ]
-// }
-
-var knot_launchpad = {
+var launchpad = {
   "entities": [
     {'type': 'person query',        label: "+", x: 0, y: 1},
     {'type': 'delegate_in query',   label: "<", x: 0, y: 0},
@@ -50,16 +29,6 @@ var knot_launchpad = {
     {'type': 'place query',         label: "@", x: 2, y: rows-1},
     {'type': 'time query',          label: "~", x: columns -2, y: rows-2},
 		{'type': 'knot query',					label: "§", x: columns -1, y: rows -1}
-  ]
-}
-
-var static_person_type = {
-  "entities": [
-    {'type': 'person prompt',       label: "+", x: 0, y: 0},
-    {'type': 'tag query',           label: "#", x: columns-1, y: 0},
-    {'type': 'place query',         label: "@", x: 0, y: rows-1},
-    {'type': 'time query',          label: "~", x: columns-1, y: rows-1}
-
   ]
 }
 
@@ -188,17 +157,13 @@ var TileQueryView = TileView.extend({
 												"query_<%= kind %>'><a href='#'><span>" + 
 												"<%= content %></span></a></li>"),
   query: function (e) {
-    //if (this.model.get('kind').toUpperCase() === "KNOT") {
-    //  doKnotQuery(Queries.toString())
-    //} else {
-      doTypeQuery(this.model)      
-    //}
+    doTypeQuery(this.model)      
     e.preventDefault()
   }
 })
 
 
-//	Static Label for Query Knot
+//	Static Label for Creating an Entry (Tie a Knot)
 //		QUERY KNOT
 var TileKnotView = TileView.extend({
   template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
@@ -209,19 +174,6 @@ var TileKnotView = TileView.extend({
     e.preventDefault()
   }
 })
-
-//	Static Pagination Labels
-//		QUERY Next
-//		QUERY Previous
-// var TilePaginationNextView = TileView.extend({
-//   template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
-// 												"next_page'><a href='#'><span>NEXT</span></a></li>"),
-//   query: function(e) {
-//     if (this.model.get('kind').toUpperCase() === "NEXT") {
-//       doQuery(this.model)
-//     }
-//   }
-// })
 
 //	Tiles { TileCollectionView }
 
@@ -369,21 +321,9 @@ var TileCollectionView = Backbone.View.extend({
             }
         }
     }
-  },	
-  /*
-	applyXY: function () {
-    Tiles.each(function (tile, index) {
-      var x = (index % columns)
-      var y = Math.floor(index / columns)
-      if(tile.get('x') === false) {
-        tile.set({x: x, y: y}, {silent: true})
-      }
-    })
   },
-	*/
   addAll: function () {
     this.drawGrid()
-    //this.applyXY()
     if (Queries.xyPos().x !== false) {
       this.spiralWalk(Queries.xyPos())
     }
@@ -573,20 +513,13 @@ var doQuery = function (model) {
 }
 
 window._relevant_jsonp = function (response) {
-	var launchpad, resp
-	// if (Queries.asQueryParam().length > 0) {
-	// 		launchpad = knot_launchpad.entities
-	// 	} else {
-	// 		launchpad = static_launchpad.entities
-	// 	}
-	launchpad = knot_launchpad.entities
 	//resp = response.entities
-	if (response.error.length > 0) {
+	if (response.error) {
 		resp = []
 	} else {
-		resp = response.entities.slice(0, columns*rows - launchpad.length)
+		resp = response.entities.slice(0, columns*rows - launchpad.entities.length)
 	}
-  resp = resp.concat(launchpad)
+  resp = resp.concat(launchpad.entities)
   Tiles.reset(resp)
   $("#meta").html(response.meta)
 }
@@ -616,41 +549,9 @@ var doKnotQuery = function () {
   var data = {add: Queries.asFuzztleText()}
   jax('knot', data)
 }
-
 window._knot_jsonp = function (response) {
-	//var resp = response.entities.slice(0, columns * rows - 6)
-	//resp = resp.concat(static_launchpad.entities)
 	Queries.reset()
-	//Tiles.reset(resp)
-	//doQuery(Queries.asQueryParam())
-	firstRequest()
-}
-
-// var getEntries = function (query) {
-//   jax('entries', data)
-// }
-// 
-// var upBoats = function (e) {
-//   var data = {q: Queries.toString(), vote:"1"}
-//   jax('relevant', data)
-// }
-// $("#upboats a.inc").click(upBoats)
-// 
-// var downBoats = function (e) {
-//   var data = {q: Queries.toString(), vote:"-1"}
-//   jax('relevant', data)
-// }
-// $("#upboats a.dec").click(downBoats)
-
-// window._entries_jsonp = function (response) {
-//   var resp = response.entries.items
-//   Entries.reset(resp)
-// }
-
-var firstRequest = function () {
-  //Queries.reset([])
 	doQuery()
-  //jax('relevant', {})
 }
 
 var resetSession = function () {
@@ -675,9 +576,6 @@ TileList = new TileCollectionView()
 Entries = new EntryCollection()
 EntryList = new EntryCollectionView()
 
-//Tiles.reset(static_launchpad.entities)
-firstRequest()
-
-//Tiles.reset(demo_data.entities)
+doQuery()
 
 })

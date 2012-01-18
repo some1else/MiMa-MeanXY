@@ -127,11 +127,7 @@ var TileView = Backbone.View.extend({
   }
 })
 
-// Labels generated from responses
-//  TILE PERSON
-//  TILE PLACE
-//  TILE TAG
-//  TILE TIME
+// Labels generated from responses // tile Person, tile Place, tile Tag, tile Time
 var TileLabelView = TileView.extend({
   template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
 												"tile_<%= kind %> tile_<%= kind %>_<%= shade %>'>" +
@@ -147,11 +143,7 @@ var TileLabelView = TileView.extend({
   }
 })
 
-// Static Labels for general queries
-//  QUERY Person
-//  QUERY PLACE
-//  QUERY TAG
-//  QUERY TIME
+// Static Labels for general queries // query Person, query Place, query Tag, query Time
 var TileQueryView = TileView.extend({
   template: _.template(	"<li class='tile tile_x_<%= x %> tile_y_<%= y %> " +
 												"query_<%= kind %>'><a href='#'><span>" + 
